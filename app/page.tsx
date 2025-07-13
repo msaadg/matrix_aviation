@@ -1,103 +1,261 @@
-import Image from "next/image";
+'use client'
+import { ArrowRight, Shield, Zap, Globe, Users, Award, TrendingUp } from "lucide-react";
+import Link from 'next/link';
+import HeroSection from "@/app/components/ui/hero-section";
+import SectionHeader from "@/app/components/ui/section-header";
+import { Button } from "@/app/components/ui/button";
+import { Card, CardContent } from "@/app/components/ui/card";
+import Footer from "./components/layout/Footer";
+import Header from "./components/layout/Header";
 
-export default function Home() {
+const Home = () => {
+  // Removed visibleSection state as it's no longer needed after making animations always visible
+
+  const features = [
+    {
+      icon: Shield,
+      title: "Safety First",
+      description: "Engineered with the highest safety standards for aviation fuel handling and distribution.",
+      image: "/turbine.png"
+    },
+    {
+      icon: Zap,
+      title: "Innovation",
+      description: "Cutting-edge technology solutions that define the future of aviation fueling systems.",
+      image: "/pipes.png"
+    },
+    {
+      icon: Globe,
+      title: "Global Reach",
+      description: "Serving major oil companies, airports, and manufacturers worldwide with reliable solutions.",
+      image: "/warehouse_facility.png"
+    }
+  ];
+
+  const stats = [
+    { icon: Users, number: "500+", label: "Global Clients" },
+    { icon: Award, number: "15+", label: "Years Experience" },
+    { icon: TrendingUp, number: "99%", label: "Client Satisfaction" },
+    { icon: Globe, number: "50+", label: "Countries Served" }
+  ];
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <div>
+      <Header />
+      <div className="overflow-hidden">
+        {/* Hero Section */}
+        <HeroSection
+          title="Welcome to Matrix Aviation"
+          subtitle="Innovative Solutions in Aviation Fueling"
+          description="At Matrix Aviation, we deliver state-of-the-art fueling systems with a commitment to safety, quality, and environmental stewardship, ensuring the future of aviation."
+          backgroundImage="/plane.png"
+          ctaText="Discover More"
         />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+        {/* About Section */}
+        <section
+          id="next-section"
+          data-section="about"
+          className="py-20 bg-white"
+        >
+          <div className="container mx-auto px-4">
+            <SectionHeader
+              subtitle="About Matrix Aviation"
+              title="Specialists in Aviation Fueling"
+              description="Founded with a vision to revolutionize aviation fueling, Matrix Aviation combines over a decade of expertise with cutting-edge technology."
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-16">
+              {features.map((feature, index) => (
+                <Card
+                  key={feature.title}
+                  className={`card-hover transition-all duration-700 opacity-100 translate-y-0`}
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <CardContent className="p-0">
+                    <div className="aspect-video overflow-hidden rounded-t-lg">
+                      <img
+                        src={feature.image}
+                        alt={feature.title}
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <div className="flex items-center space-x-3 mb-4">
+                        <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                          <feature.icon className="w-6 h-6 text-primary" />
+                        </div>
+                        <h3 className="text-xl font-bold text-matrix-gray">{feature.title}</h3>
+                      </div>
+                      <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Stats Section */}
+        <section
+          data-section="stats"
+          className="py-20 bg-matrix-gray text-white"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+              {stats.map((stat, index) => (
+                <div
+                  key={stat.label}
+                  className="text-center transition-all duration-700 opacity-100 translate-y-0"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                    <stat.icon className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-4xl font-bold text-primary mb-2">{stat.number}</div>
+                  <div className="text-white/80 font-medium">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Products Preview */}
+        <section
+          data-section="products"
+          className="py-20 bg-gray-50"
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          <div className="container mx-auto px-4">
+            <SectionHeader
+              subtitle="Our Products"
+              title="Quality Solutions for Aviation Fueling"
+              description="Explore our range of durable, innovative fueling solutions designed for safety and efficiency."
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+              <Card className="card-hover">
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-bold text-matrix-gray mb-3">Pressure Fuelling Nozzles</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Engineered for safety and efficiency, our field-proven nozzle designs meet the most demanding requirements.
+                  </p>
+                  <Link href={"/products"} className="text-primary hover:text-primary/80 font-medium inline-flex items-center">
+                    Learn More <ArrowRight className="ml-1 w-4 h-4" />
+                  </Link>
+                </CardContent>
+              </Card>
+
+              <Card className="card-hover">
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-bold text-matrix-gray mb-3">Hydrant Intake Couplers</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Modular, durable construction for reliable fuel distribution systems across all aviation applications.
+                  </p>
+                  <Link href={"/products"} className="text-primary hover:text-primary/80 font-medium inline-flex items-center">
+                    Learn More <ArrowRight className="ml-1 w-4 h-4" />
+                  </Link>
+                </CardContent>
+              </Card>
+
+              <Card className="card-hover">
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-bold text-matrix-gray mb-3">Quality Control & Testing</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Comprehensive testing equipment to ensure fuel quality and system integrity in all operations.
+                  </p>
+                  <Link href={"/products"} className="text-primary hover:text-primary/80 font-medium inline-flex items-center">
+                    Learn More <ArrowRight className="ml-1 w-4 h-4" />
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="text-center mt-12">
+              <Button asChild size="lg">
+                <Link href={"/products"}>
+                  View All Products
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section
+          data-section="contact"
+          className="py-20 bg-white"
         >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <SectionHeader
+                  subtitle="Get in Touch"
+                  title="Ready to Transform Your Aviation Operations?"
+                  description="Contact our team of experts to discuss your specific requirements and discover how Matrix Aviation can enhance your fueling operations."
+                  centered={false}
+                />
+
+                <div className="space-y-6 mt-8">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <Users className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-matrix-gray">Expert Consultation</div>
+                      <div className="text-muted-foreground">Personalized solutions for your needs</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <Shield className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-matrix-gray">Quality Assurance</div>
+                      <div className="text-muted-foreground">Certified and tested solutions</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <Globe className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-matrix-gray">Global Support</div>
+                      <div className="text-muted-foreground">Worldwide service and maintenance</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                  <Button size="lg" className="flex-1">
+                    <a href="tel:+441932269869" className="flex items-center">
+                      Call Now: +44 (0) 1932 269869
+                    </a>
+                  </Button>
+                  <Button variant="outline" size="lg" className="flex-1">
+                    <a href="mailto:sales@matrixaviation.com">
+                      Email Us
+                    </a>
+                  </Button>
+                </div>
+              </div>
+
+              <div className="aspect-square overflow-hidden rounded-2xl">
+                <img
+                  src="/facility.png"
+                  alt="Matrix Aviation Facility"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <Footer />
     </div>
   );
-}
+};
+
+export default Home;
