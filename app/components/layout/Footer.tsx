@@ -56,14 +56,6 @@ const Footer = () => {
                   Brands
                 </a>
               </li>
-              <li>
-                <a
-                  href="/sustainability"
-                  className="text-gray-300 hover:text-white transition-colors duration-300"
-                >
-                  Sustainability
-                </a>
-              </li>
             </ul>
           </div>
 

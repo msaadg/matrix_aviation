@@ -1,5 +1,5 @@
 'use client'
-import { ArrowRight, Shield, Zap, Globe, Users, Award, TrendingUp } from "lucide-react";
+import { ArrowRight, Shield, Zap, Globe, Users } from "lucide-react";
 import Link from 'next/link';
 import HeroSection from "@/app/components/ui/hero-section";
 import SectionHeader from "@/app/components/ui/section-header";

@@ -7,13 +7,6 @@ import Header from "@/app/components/layout/Header";
 import Footer from "@/app/components/layout/Footer";
 
 const Company = () => {
-  const milestones = [
-    { year: "2010", title: "Company Founded", description: "Matrix Aviation established with a vision to revolutionize aviation fueling solutions." },
-    { year: "2015", title: "Global Expansion", description: "Extended operations to serve international airports and oil companies worldwide." },
-    { year: "2020", title: "Innovation Focus", description: "Launched advanced product lines with enhanced safety and efficiency features." },
-    { year: "2024", title: "Sustainability Leadership", description: "Leading the industry in environmentally responsible fueling solutions." }
-  ];
-
   const values = [
     {
       icon: Shield,
@@ -87,39 +80,8 @@ const Company = () => {
           </div>
         </section>
 
-        {/* Timeline Section */}
-        <section className="py-20 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <SectionHeader
-              subtitle="Our Journey"
-              title="Key Milestones"
-              description="A timeline of growth, innovation, and achievement in aviation fueling solutions."
-            />
-
-            <div className="relative mt-16">
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-primary/20"></div>
-              
-              {milestones.map((milestone, index) => (
-                <div key={milestone.year} className={`relative flex items-center ${index % 2 === 0 ? 'justify-start' : 'justify-end'} mb-12`}>
-                  <div className={`w-1/2 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8 text-left'}`}>
-                    <Card className="card-hover">
-                      <CardContent className="p-6">
-                        <div className="text-2xl font-bold text-primary mb-2">{milestone.year}</div>
-                        <h3 className="text-xl font-bold text-matrix-gray mb-3">{milestone.title}</h3>
-                        <p className="text-muted-foreground">{milestone.description}</p>
-                      </CardContent>
-                    </Card>
-                  </div>
-                  
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-primary rounded-full border-4 border-white shadow-lg"></div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Values Section */}
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-gray-50">
           <div className="container mx-auto px-4">
             <SectionHeader
               subtitle="Our Values"
