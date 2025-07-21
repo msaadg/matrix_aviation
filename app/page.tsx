@@ -9,7 +9,6 @@ import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 
 const Home = () => {
-  // Removed visibleSection state as it's no longer needed after making animations always visible
 
   const features = [
     {
@@ -30,13 +29,6 @@ const Home = () => {
       description: "Serving major oil companies, airports, and manufacturers worldwide with reliable solutions.",
       image: "/warehouse_facility.png"
     }
-  ];
-
-  const stats = [
-    { icon: Users, number: "500+", label: "Global Clients" },
-    { icon: Award, number: "15+", label: "Years Experience" },
-    { icon: TrendingUp, number: "99%", label: "Client Satisfaction" },
-    { icon: Globe, number: "50+", label: "Countries Served" }
   ];
 
   return (
@@ -91,30 +83,6 @@ const Home = () => {
                     </div>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Stats Section */}
-        <section
-          data-section="stats"
-          className="py-20 bg-matrix-gray text-white"
-        >
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-              {stats.map((stat, index) => (
-                <div
-                  key={stat.label}
-                  className="text-center transition-all duration-700 opacity-100 translate-y-0"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                    <stat.icon className="w-8 h-8 text-white" />
-                  </div>
-                  <div className="text-4xl font-bold text-primary mb-2">{stat.number}</div>
-                  <div className="text-white/80 font-medium">{stat.label}</div>
-                </div>
               ))}
             </div>
           </div>
