@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Search, Filter, ArrowRight, Settings, Wrench, Gauge, Shield, Zap, CheckCircle } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useParams } from 'next/navigation';
 import HeroSection from "@/app/components/ui/hero-section";
 import SectionHeader from "@/app/components/ui/section-header";
 import { Card, CardContent } from "@/app/components/ui/card";
@@ -13,8 +13,7 @@ import Footer from "@/app/components/layout/Footer";
 import Header from "@/app/components/layout/Header";
 
 const SubProducts = () => {
-  const searchParams = useSearchParams();
-  const productId = searchParams?.get('product') || '1';
+  const { productSlug } = useParams();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
 
@@ -171,8 +170,8 @@ const SubProducts = () => {
     ]
   };
 
-  const currentSubProducts = subProducts[productId as keyof typeof subProducts] || [];
-  const currentProductName = productNames[productId as keyof typeof productNames] || 'Products';
+  const currentSubProducts = subProducts[productSlug as keyof typeof subProducts] || [];
+  const currentProductName = productNames[productSlug as keyof typeof productNames] || 'Products';
 
   const filteredSubProducts = currentSubProducts.filter(subProduct => {
     const matchesSearch = subProduct.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -356,7 +355,7 @@ const SubProducts = () => {
                         </div>
                         
                         <Link
-                          href={`/products/${productId}/${subProduct.id}`}
+                          href={`/products/${productSlug}/${subProduct.id}`}
                           className="inline-flex items-center bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 font-medium text-sm group transition-all"
                         >
                           View Details
