@@ -1,6 +1,6 @@
 'use client'
-import { useState } from "react";
-import { Search, Filter, ArrowRight, Wrench, Gauge, Shield, Zap } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Search, Filter, ArrowRight, Package } from "lucide-react";
 import Link from "next/link";
 import HeroSection from "@/app/components/ui/hero-section";
 import SectionHeader from "@/app/components/ui/section-header";
@@ -9,82 +9,49 @@ import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import Footer from "@/app/components/layout/Footer";
 import Header from "@/app/components/layout/Header";
+import { getProductsWithCategories } from "@/app/lib/sanity-service";
+import { filterProducts, getImageUrl } from "@/app/lib/product-utils";
+import { Product, ProductCategory } from "@/app/lib/types";
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<ProductCategory[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const categories = [
-    { id: "all", name: "All Products" },
-    { id: "nozzles", name: "Fuelling Nozzles" },
-    { id: "couplers", name: "Hydrant Couplers" },
-    { id: "testing", name: "Quality Control" },
-    { id: "bonding", name: "Static Bonding" }
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getProductsWithCategories();
+        setProducts(data.products);
+        setCategories(data.categories);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const products = [
-    {
-      id: 1,
-      name: "Pressure Fuelling Nozzles",
-      category: "nozzles",
-      description: "Engineered for safety and efficiency, our field-proven nozzle designs meet the most demanding requirements.",
-      features: ["Modular design", "Easy maintenance", "Safety certified"],
-      image: "/turbine.png",
-      icon: Wrench
-    },
-    {
-      id: 2,
-      name: "Hydrant Intake Couplers",
-      category: "couplers",
-      description: "Modular, durable construction for reliable fuel distribution systems across all aviation applications.",
-      features: ["Corrosion resistant", "High flow rates", "Quick connect"],
-      image: "/pipes.png",
-      icon: Zap
-    },
-    {
-      id: 3,
-      name: "Quality Control & Testing",
-      category: "testing",
-      description: "Comprehensive testing equipment to ensure fuel quality and system integrity in all operations.",
-      features: ["Precision testing", "Digital monitoring", "Compliance ready"],
-      image: "/machinery.png",
-      icon: Gauge
-    },
-    {
-      id: 4,
-      name: "Static Bonding Equipment",
-      category: "bonding",
-      description: "Advanced static bonding solutions for safe fuel handling and transfer operations.",
-      features: ["Safety compliance", "Automatic operation", "Durable construction"],
-      image: "/plane.png",
-      icon: Shield
-    },
-    {
-      id: 5,
-      name: "Fuel Hose Systems",
-      category: "nozzles",
-      description: "High-quality fuel hose systems designed for durability and reliability in aviation environments.",
-      features: ["Flexible design", "Temperature resistant", "Long service life"],
-      image: "/pipes.png",
-      icon: Wrench
-    },
-    {
-      id: 6,
-      name: "Monitoring Systems",
-      category: "testing",
-      description: "Advanced monitoring systems for real-time fuel quality and system performance tracking.",
-      features: ["Real-time data", "Remote monitoring", "Alert systems"],
-      image: "/facility.png",
-      icon: Gauge
-    }
-  ];
+    fetchData();
+  }, []);
 
   const filteredProducts = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "all" || product.category === selectedCategory;
+    const matchesSearch = filterProducts([product], searchTerm).length > 0;
+    const matchesCategory = selectedCategory === "all" || product.category?.slug?.current === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading products...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -101,32 +68,41 @@ const Products = () => {
         {/* Search and Filter Section */}
         <section id="next-section" className="py-12 bg-gray-50">
           <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-              <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-                <Input
-                  type="text"
-                  placeholder="Search products..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-              
-              <div className="flex gap-2 flex-wrap">
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-white p-6 rounded-xl shadow-sm">
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Search field */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+              <Input
+                type="text"
+                placeholder="Search products..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 h-12"
+              />
+            </div>
+            
+            {/* Categories dropdown */}
+            <div className="relative min-w-[200px]">
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="w-full h-12 px-4 pr-8 border border-input rounded-md bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary appearance-none"
+              >
+                <option value="all">All Categories</option>
                 {categories.map((category) => (
-                  <button
-                    key={category.id}
-                    onClick={() => setSelectedCategory(category.id)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      selectedCategory === category.id
-                        ? "bg-primary text-white"
-                        : "bg-white text-matrix-gray hover:bg-primary/10"
-                    }`}
-                  >
-                    {category.name}
-                  </button>
+            <option 
+              key={category._id} 
+              value={category.slug?.current || ""}
+            >
+              {category.title}
+            </option>
                 ))}
+              </select>
+              <Filter className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5 pointer-events-none" />
+            </div>
+          </div>
               </div>
             </div>
           </div>
@@ -143,12 +119,12 @@ const Products = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
               {filteredProducts.map((product) => (
-                <Card key={product.id} className="card-hover group">
+                <Card key={product._id} className="card-hover group">
                   <CardContent className="p-0">
                     <div className="aspect-video overflow-hidden rounded-t-lg">
                       <img
-                        src={product.image}
-                        alt={product.name}
+                        src={getImageUrl(product.mainImage, 400, 300)}
+                        alt={product.mainImage?.alt || product.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
@@ -157,18 +133,18 @@ const Products = () => {
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center space-x-3">
                           <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                            <product.icon className="w-5 h-5 text-primary" />
+                            <Package className="w-5 h-5 text-primary" />
                           </div>
-                          <h3 className="text-xl font-bold text-matrix-gray">{product.name}</h3>
+                          <h3 className="text-xl font-bold text-matrix-gray">{product.title}</h3>
                         </div>
                       </div>
                       
                       <p className="text-muted-foreground mb-4 leading-relaxed">
-                        {product.description}
+                        {product.shortDescription}
                       </p>
                       
                       <div className="space-y-2 mb-6">
-                        {product.features.map((feature, index) => (
+                        {product.features?.slice(0, 3).map((feature, index) => (
                           <div key={index} className="flex items-center space-x-2">
                             <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
                             <span className="text-sm text-muted-foreground">{feature}</span>
@@ -177,7 +153,7 @@ const Products = () => {
                       </div>
                       
                       <Link
-                        href={`/products/${product.id}`}
+                        href={`/products/${product.slug?.current}`}
                         className="inline-flex items-center text-primary hover:text-primary/80 font-medium group"
                       >
                         Learn More
