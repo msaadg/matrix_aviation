@@ -100,7 +100,10 @@ export const productBySlugQuery = groq`
     datasheet{
       asset->{
         _ref,
-        url
+        _id,
+        url,
+        originalFilename,
+        mimeType
       }
     },
     specifications,
@@ -171,7 +174,10 @@ export const subProductBySlugQuery = groq`
     datasheet{
       asset->{
         _ref,
-        url
+        _id,
+        url,
+        originalFilename,
+        mimeType
       }
     },
     specifications,

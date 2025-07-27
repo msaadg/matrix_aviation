@@ -2,17 +2,20 @@
 import { useState, useEffect } from "react";
 import { useParams } from 'next/navigation';
 import Link from "next/link";
-import { CheckCircle, Download, Phone, Mail, ArrowRight } from "lucide-react";
+import { CheckCircle, Phone, Mail, ArrowRight } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
+import { DownloadButton } from "@/app/components/ui/download-button";
 import { Card, CardContent } from "@/app/components/ui/card";
 import Footer from "@/app/components/layout/Footer";
 import Header from "@/app/components/layout/Header";
 import { getSubProductBySlug } from "@/app/lib/sanity-service";
+import { PortableText } from '@portabletext/react';
 import { 
   generateSubProductBreadcrumb, 
   getImageUrl, 
   getFileUrl, 
   hasDatasheet,
+  getDatasheetFilename,
   formatSpecifications 
 } from "@/app/lib/product-utils";
 import { SubProduct } from "@/app/lib/types";
@@ -183,20 +186,13 @@ const ProductDetail = () => {
                     </a>
                   </Button>
                   {hasDatasheet(subProduct) && (
-                    <Button 
-                      variant="outline" 
-                      size="lg"
-                      asChild
-                    >
-                      <a 
-                        href={getFileUrl(subProduct.datasheet) || '#'}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Download className="mr-2 w-5 h-5" />
-                        Datasheet
-                      </a>
-                    </Button>
+                    <div className="flex-1">
+                      <DownloadButton 
+                        url={getFileUrl(subProduct.datasheet, getDatasheetFilename(subProduct)) || '#'}
+                        filename={getDatasheetFilename(subProduct)}
+                        className="w-full px-12"
+                      />
+                    </div>
                   )}
                 </div>
               </div>
@@ -210,12 +206,10 @@ const ProductDetail = () => {
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto">
                 <h2 className="text-3xl font-bold text-matrix-gray mb-8">Product Details</h2>
-                <div className="prose prose-lg max-w-none">
-                  {/* Render portable text content here if you have a renderer */}
-                  <p className="text-muted-foreground leading-relaxed">
-                    {/* For now, we'll show a placeholder. You'd normally render the portable text here */}
-                    Detailed product information is available. Contact us for complete specifications.
-                  </p>
+                <div className="text-muted-foreground leading-relaxed">
+                  {subProduct.longDescription && (
+                    <PortableText value={subProduct.longDescription} />
+                  )}
                 </div>
               </div>
             </div>

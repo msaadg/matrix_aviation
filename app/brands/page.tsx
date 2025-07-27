@@ -1,5 +1,6 @@
 'use client'
-import { CheckCircle, Star, ArrowRight, Shield, Award, Globe } from "lucide-react";
+import { useEffect, useState } from 'react'
+import { Star, ArrowRight, Shield, Award, Globe } from "lucide-react";
 import Link from 'next/link';
 import HeroSection from "@/app/components/ui/hero-section";
 import SectionHeader from "@/app/components/ui/section-header";
@@ -7,58 +8,28 @@ import { Card, CardContent } from "@/app/components/ui/card";
 import { Button } from "@/app/components/ui/button";
 import Header from "@/app/components/layout/Header";
 import Footer from "@/app/components/layout/Footer";
+import { Brand } from "@/app/lib/types";
+import { getBrands } from "@/app/lib/sanity-service";
+import { getImageUrl } from "@/app/lib/product-utils";
 
 const Brands = () => {
-  const brands = [
-    {
-      name: "Eaton's Carter®",
-      category: "Refueling Systems",
-      description: "Advanced refueling systems designed for safety, efficiency, and reliability in demanding aviation environments.",
-      features: ["Safety certified", "Proven reliability", "Global support"],
-      image: "/turbine.png",
-      specialties: ["Pressure fueling nozzles", "Aircraft refueling equipment", "Safety systems"]
-    },
-    {
-      name: "MicroBMonitor2®",
-      category: "Monitoring Solutions",
-      description: "Cutting-edge monitoring technology for real-time fuel quality assessment and system performance tracking.",
-      features: ["Real-time monitoring", "Digital interface", "Compliance ready"],
-      image: "/facility.png",
-      specialties: ["Fuel quality testing", "Contamination detection", "Digital monitoring"]
-    },
-    {
-      name: "ElaFLEX",
-      category: "Environmental Solutions",
-      description: "Industry-leading environmental protection solutions with climate-conscious design and sustainable manufacturing.",
-      features: ["Eco-friendly design", "Climate protection", "Sustainable materials"],
-      image: "/sustainability.png",
-      specialties: ["Environmental protection", "Sustainable design", "Climate solutions"]
-    },
-    {
-      name: "Aljac",
-      category: "Industrial Systems",
-      description: "Comprehensive industrial automation and control systems for aviation fuel handling and distribution.",
-      features: ["Automation systems", "Industrial grade", "Custom solutions"],
-      image: "/warehouse_facility.png",
-      specialties: ["Automation systems", "Fuel distribution", "Industrial controls"]
-    },
-    {
-      name: "Matrix Precision",
-      category: "Testing Equipment",
-      description: "Precision testing and quality control equipment ensuring the highest standards in aviation fuel systems.",
-      features: ["Precision testing", "Quality assurance", "Technical support"],
-      image: "/machinery.png",
-      specialties: ["Quality control", "Precision testing", "Calibration services"]
-    },
-    {
-      name: "AeroFlex Systems",
-      category: "Flexible Solutions",
-      description: "Flexible hose and coupling systems designed for demanding aviation fuel handling applications.",
-      features: ["Flexible design", "Durable construction", "Easy installation"],
-      image: "/pipes.png",
-      specialties: ["Fuel hoses", "Coupling systems", "Flexible connections"]
+  const [brands, setBrands] = useState<Brand[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const brandsData = await getBrands()
+        setBrands(brandsData)
+      } catch (error) {
+        console.error('Error fetching brands:', error)
+      } finally {
+        setLoading(false)
+      }
     }
-  ];
+    
+    fetchBrands()
+  }, [])
 
   const partnerships = [
     {
@@ -124,66 +95,81 @@ const Brands = () => {
               description="Discover our portfolio of trusted brand partners and their specialized solutions."
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
-              {brands.map((brand) => (
-                <Card key={brand.name} className="card-hover">
-                  <CardContent className="p-0">
-                    <div className="grid grid-cols-1 md:grid-cols-2">
-                      <div className="aspect-square md:aspect-auto overflow-hidden">
-                        <img
-                          src={brand.image}
-                          alt={brand.name}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                        />
-                      </div>
-                      
-                      <div className="p-6 flex flex-col justify-between">
-                        <div>
-                          <div className="mb-4">
-                            <div className="text-sm text-primary font-semibold mb-1">{brand.category}</div>
-                            <h3 className="text-2xl font-bold text-matrix-gray">{brand.name}</h3>
-                          </div>
-                          
-                          <p className="text-muted-foreground mb-4 leading-relaxed">
-                            {brand.description}
-                          </p>
-                          
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+              {loading ? (
+                Array.from({ length: 9 }).map((_, index) => (
+                  <Card key={index} className="animate-pulse">
+                    <CardContent className="p-0">
+                      <div className="space-y-4">
+                        <div className="h-48 bg-gray-200"></div>
+                        <div className="p-6">
+                          <div className="h-4 bg-gray-200 rounded w-20 mb-2"></div>
+                          <div className="h-6 bg-gray-200 rounded w-32 mb-4"></div>
                           <div className="space-y-2 mb-4">
-                            {brand.features.map((feature, featureIndex) => (
-                              <div key={featureIndex} className="flex items-center space-x-2">
-                                <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                                <span className="text-sm text-muted-foreground">{feature}</span>
-                              </div>
-                            ))}
+                            <div className="h-3 bg-gray-200 rounded w-full"></div>
+                            <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+                            <div className="h-3 bg-gray-200 rounded w-1/2"></div>
                           </div>
-                          
-                          <div className="mb-6">
-                            <h4 className="font-semibold text-matrix-gray mb-2">Specialties:</h4>
-                            <div className="flex flex-wrap gap-2">
-                              {brand.specialties.map((specialty, specialtyIndex) => (
-                                <span
-                                  key={specialtyIndex}
-                                  className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full"
-                                >
-                                  {specialty}
-                                </span>
-                              ))}
+                          <div className="h-4 bg-gray-200 rounded w-24"></div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              ) : brands.length === 0 ? (
+                <div className="col-span-full text-center py-12">
+                  <p className="text-muted-foreground">No brands available at the moment.</p>
+                </div>
+              ) : (
+                brands.map((brand) => (
+                  <Card key={brand._id} className="card-hover">
+                    <CardContent className="p-0">
+                      <div className="space-y-4">
+                        <div className="h-48 overflow-hidden">
+                          {brand.logo ? (
+                            <img
+                              src={getImageUrl(brand.logo)}
+                              alt={brand.title}
+                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/20 flex items-center justify-center">
+                              <span className="text-primary font-bold text-3xl">
+                                {brand.title.charAt(0)}
+                              </span>
                             </div>
-                          </div>
+                          )}
                         </div>
                         
-                        <Link
-                          href="/products"
-                          className="inline-flex items-center text-primary hover:text-primary/80 font-medium group"
-                        >
-                          View Products
-                          <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-                        </Link>
+                        <div className="p-6">
+                          <div className="mb-4">
+                            {brand.associatedProduct?.category && (
+                              <div className="text-sm text-primary font-semibold mb-1">
+                                {brand.associatedProduct.category.title}
+                              </div>
+                            )}
+                            <h3 className="text-xl font-bold text-matrix-gray mb-3">{brand.title}</h3>
+                            
+                            <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
+                              {brand.shortDescription}
+                            </p>
+                          </div>
+                          
+                          {brand.associatedProduct && (
+                            <Link
+                              href={`/products/${brand.associatedProduct.slug.current}`}
+                              className="inline-flex items-center text-primary hover:text-primary/80 font-medium group text-sm"
+                            >
+                              View Products
+                              <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                            </Link>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+                    </CardContent>
+                  </Card>
+                ))
+              )}
             </div>
           </div>
         </section>

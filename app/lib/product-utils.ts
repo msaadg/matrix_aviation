@@ -2,7 +2,7 @@ import { urlFor } from '@/sanity/lib/image'
 import { Product, SubProduct, ProductCategory } from '@/app/lib/types'
 
 // Get optimized image URL
-export function getImageUrl(image: any, width?: number, height?: number): string {
+export function getImageUrl(image: { asset?: { _ref?: string; _id?: string } }, width?: number, height?: number): string {
   if (!image?.asset) return '/placeholder.jpg'
   
   let builder = urlFor(image)
@@ -16,10 +16,21 @@ export function getImageUrl(image: any, width?: number, height?: number): string
   return builder.url()
 }
 
-// Get file URL for downloads
-export function getFileUrl(file: any): string | null {
+// Get file URL for downloads (secure proxy)
+export function getFileUrl(file?: { asset?: { _ref?: string; _id?: string; url?: string; originalFilename?: string; mimeType?: string } }, filename?: string): string | null {
   if (!file?.asset) return null
-  return file.asset.url
+  
+  // Extract the file ID from the asset reference
+  const fileId = file.asset._ref || file.asset._id
+  if (!fileId) return null
+  
+  // Create secure download URL through our API
+  const params = new URLSearchParams({ fileId })
+  if (filename) {
+    params.append('filename', filename)
+  }
+  
+  return `/api/download?${params.toString()}`
 }
 
 // Filter products by search term

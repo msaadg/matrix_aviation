@@ -56,7 +56,10 @@ export interface Product {
   datasheet?: {
     asset: {
       _ref: string
+      _id?: string
       url: string
+      originalFilename?: string
+      mimeType?: string
     }
   }
   specifications?: Specification[]
@@ -94,7 +97,10 @@ export interface SubProduct {
   datasheet?: {
     asset: {
       _ref: string
+      _id?: string
       url: string
+      originalFilename?: string
+      mimeType?: string
     }
   }
   specifications?: Specification[]
@@ -102,6 +108,27 @@ export interface SubProduct {
   order?: number
   featured?: boolean
   available?: boolean
+}
+
+// Brand interface
+export interface Brand {
+  _id: string
+  _type: 'brand'
+  title: string
+  slug: {
+    current: string
+  }
+  logo?: {
+    asset: {
+      _ref: string
+      url: string
+    }
+    alt?: string
+  }
+  shortDescription: string
+  associatedProduct?: Product
+  order?: number
+  featured?: boolean
 }
 
 // API Response interfaces

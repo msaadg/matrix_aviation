@@ -7,6 +7,7 @@ import {authorType} from './authorType'
 import {productCategoryType} from './productCategoryType'
 import {productType} from './productType'
 import {subProductType} from './subProductType'
+import {brandType} from './brandType'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -16,6 +17,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     authorType,
     productCategoryType,
     productType,
-    subProductType
+    subProductType,
+    brandType
   ],
 }

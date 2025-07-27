@@ -5,7 +5,8 @@ import {
   SubProduct, 
   ProductsResponse,
   ProductDetailResponse,
-  SubProductDetailResponse
+  SubProductDetailResponse,
+  Brand
 } from '@/app/lib/types'
 import {
   productCategoriesQuery,
@@ -201,6 +202,63 @@ export async function getSubProductPaths(): Promise<Array<{params: {slug: string
     }))
   } catch (error) {
     console.error('Error fetching sub product paths:', error)
+    return []
+  }
+}
+
+// Get all brands
+export async function getBrands(): Promise<Brand[]> {
+  try {
+    const brandsQuery = `*[_type == "brand"] | order(order asc, title asc) {
+      _id,
+      _type,
+      title,
+      slug,
+      logo,
+      shortDescription,
+      associatedProduct->{
+        _id,
+        title,
+        slug,
+        shortDescription,
+        category->{
+          _id,
+          title,
+          slug
+        }
+      },
+      order,
+      featured
+    }`
+    return await client.fetch(brandsQuery)
+  } catch (error) {
+    console.error('Error fetching brands:', error)
+    return []
+  }
+}
+
+// Get featured brands
+export async function getFeaturedBrands(): Promise<Brand[]> {
+  try {
+    const featuredBrandsQuery = `*[_type == "brand" && featured == true] | order(order asc, title asc) {
+      _id,
+      _type,
+      title,
+      slug,
+      logo,
+      shortDescription,
+      associatedProduct->{
+        _id,
+        title,
+        slug,
+        shortDescription
+      },
+      order,
+      featured
+    }`
+    return await client.fetch(featuredBrandsQuery)
+  } catch (error) {
+    console.error('Error fetching featured brands:', error)
     return []
   }
 }

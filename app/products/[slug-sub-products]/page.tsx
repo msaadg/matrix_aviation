@@ -7,6 +7,7 @@ import HeroSection from "@/app/components/ui/hero-section";
 import SectionHeader from "@/app/components/ui/section-header";
 import { Card, CardContent } from "@/app/components/ui/card";
 import { Button } from "@/app/components/ui/button";
+import { DownloadButton } from "@/app/components/ui/download-button";
 import { Input } from "@/app/components/ui/input";
 import Footer from "@/app/components/layout/Footer";
 import Header from "@/app/components/layout/Header";
@@ -15,7 +16,8 @@ import {
   generateProductBreadcrumb, 
   getImageUrl, 
   getFileUrl, 
-  hasDatasheet 
+  hasDatasheet,
+  getDatasheetFilename 
 } from "@/app/lib/product-utils";
 import { Product, SubProduct } from "@/app/lib/types";
 
@@ -204,20 +206,15 @@ const SubProductsPage = () => {
                           </Link>
                           
                           {hasDatasheet(subProduct) && (
-                            <Button 
-                              variant="ghost" 
+                            <DownloadButton 
+                              url={getFileUrl(subProduct.datasheet, getDatasheetFilename(subProduct)) || '#'}
+                              filename={getDatasheetFilename(subProduct)}
+                              variant="ghost"
                               size="sm"
-                              asChild
+                              className="text-muted-foreground hover:text-primary p-2"
                             >
-                              <a 
-                                href={getFileUrl(subProduct.datasheet) || '#'}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-muted-foreground hover:text-primary"
-                              >
-                                <Download className="w-4 h-4" />
-                              </a>
-                            </Button>
+                              <Download className="w-4 h-4" />
+                            </DownloadButton>
                           )}
                         </div>
                       </div>
