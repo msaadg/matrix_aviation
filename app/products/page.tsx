@@ -192,8 +192,8 @@ const Products = () => {
                 </Button>
                 
                 <Button variant="outline" size="lg" className="w-full">
-                  <a href="mailto:sales@matrixaviation.com">
-                    Email: sales@matrixaviation.com
+                  <a href="mailto:sales@matrixpakistan.com">
+                    Email: sales@matrixpakistan.com
                   </a>
                 </Button>
               </div>

@@ -106,10 +106,10 @@ const Contact = () => {
                           </CardHeader>
                           <CardContent>
                             <a 
-                              href="mailto:sales@matrixaviation.com"
+                              href="mailto:sales@matrixpakistan.com"
                               className="text-matrix-gray hover:text-primary transition-colors"
                             >
-                              sales@matrixaviation.com
+                              sales@matrixpakistan.com
                             </a>
                           </CardContent>
                         </Card>

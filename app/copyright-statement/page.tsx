@@ -44,7 +44,7 @@ const CopyrightStatement = () => {
                         </li>
                         <li className="flex items-start">
                           <span className="text-primary mr-2">•</span>
-                          Email sales@matrixaviation.com with your request details
+                          Email sales@matrixpakistan.com with your request details
                         </li>
                         <li className="flex items-start">
                           <span className="text-primary mr-2">•</span>

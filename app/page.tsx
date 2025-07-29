@@ -203,7 +203,7 @@ const Home = () => {
                     </a>
                   </Button>
                   <Button variant="outline" size="lg" className="flex-1">
-                    <a href="mailto:sales@matrixaviation.com">
+                    <a href="mailto:sales@matrixpakistan.com">
                       Email Us
                     </a>
                   </Button>

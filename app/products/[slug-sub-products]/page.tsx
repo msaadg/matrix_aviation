@@ -251,7 +251,7 @@ const SubProductsPage = () => {
                 </Button>
                 
                 <Button variant="outline" size="lg" className="w-full" asChild>
-                  <a href="mailto:sales@matrixaviation.com">Email: sales@matrixaviation.com</a>
+                  <a href="mailto:sales@matrixpakistan.com">Email: sales@matrixpakistan.com</a>
                 </Button>
               </div>
             </div>

@@ -248,7 +248,7 @@ const Brands = () => {
               </Button>
               
               <Button variant="outline" size="lg" className="flex-1 border-white text-matrix-gray hover:bg-white/90 hover:text-matrix-gray">
-                <a href="mailto:sales@matrixaviation.com">
+                <a href="mailto:sales@matrixpakistan.com">
                   Contact Us
                 </a>
               </Button>

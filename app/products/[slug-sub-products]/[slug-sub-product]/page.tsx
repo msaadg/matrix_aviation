@@ -180,7 +180,7 @@ const ProductDetail = () => {
                     </a>
                   </Button>
                   <Button variant="outline" size="lg" className="flex-1" asChild>
-                    <a href="mailto:sales@matrixaviation.com">
+                    <a href="mailto:sales@matrixpakistan.com">
                       <Mail className="mr-2 w-5 h-5" />
                       Request Info
                     </a>
