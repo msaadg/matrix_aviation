@@ -107,7 +107,7 @@ const HeroSection = ({
         >
           <button
             onClick={scrollToNextSection}
-            className="flex flex-col items-center space-y-2 text-white/80 hover:text-white transition-colors duration-300 animate-float"
+            className="flex flex-col items-center space-y-2 text-white/80 hover:text-white transition-colors duration-1000 animate-float"
           >
             <span className="text-sm uppercase tracking-wide">Scroll Down</span>
             <ChevronDown className="w-6 h-6" />
