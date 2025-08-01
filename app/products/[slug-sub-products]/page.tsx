@@ -20,6 +20,8 @@ import {
   getDatasheetFilename 
 } from "@/app/lib/product-utils";
 import { Product, SubProduct } from "@/app/lib/types";
+import { getPrimaryPhone, getPrimaryEmail, getPhoneLink, getEmailLink } from "@/app/lib/contact-utils";
+import { useContact } from "@/app/context/ContactContext";
 
 const SubProductsPage = () => {
   const { 'slug-sub-products': productSlug } = useParams();
@@ -27,16 +29,17 @@ const SubProductsPage = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [subProducts, setSubProducts] = useState<SubProduct[]>([]);
   const [loading, setLoading] = useState(true);
+  const { contact } = useContact();
 
   useEffect(() => {
     const fetchData = async () => {
       if (!productSlug || typeof productSlug !== 'string') return;
       
       try {
-        const data = await getProductBySlug(productSlug);
-        if (data) {
-          setProduct(data.product);
-          setSubProducts(data.subProducts);
+        const productData = await getProductBySlug(productSlug);
+        if (productData) {
+          setProduct(productData.product);
+          setSubProducts(productData.subProducts);
         }
       } catch (error) {
         console.error('Error fetching product:', error);
@@ -50,9 +53,11 @@ const SubProductsPage = () => {
 
   const filteredSubProducts = subProducts.filter(subProduct =>
     subProduct.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    subProduct.shortDescription.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    subProduct.modelNumber?.toLowerCase().includes(searchTerm.toLowerCase())
+    subProduct.shortDescription.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const primaryPhone = getPrimaryPhone(contact);
+  const primaryEmail = getPrimaryEmail(contact);
 
   if (loading) {
     return (
@@ -246,13 +251,17 @@ const SubProductsPage = () => {
               </p>
               
               <div className="space-y-4">
-                <Button size="lg" className="w-full" asChild>
-                  <a href="tel:+441932269869">Call: +44 (0) 1932 269869</a>
-                </Button>
+                {primaryPhone && (
+                  <Button size="lg" className="w-full" asChild>
+                    <a href={getPhoneLink(primaryPhone)}>Call: {primaryPhone.number}</a>
+                  </Button>
+                )}
                 
-                <Button variant="outline" size="lg" className="w-full" asChild>
-                  <a href="mailto:sales@matrixpakistan.com">Email: sales@matrixpakistan.com</a>
-                </Button>
+                {primaryEmail && (
+                  <Button variant="outline" size="lg" className="w-full" asChild>
+                    <a href={getEmailLink(primaryEmail)}>Email: {primaryEmail.email}</a>
+                  </Button>
+                )}
               </div>
             </div>
           </div>

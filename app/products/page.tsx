@@ -12,6 +12,8 @@ import Header from "@/app/components/layout/Header";
 import { getProductsWithCategories } from "@/app/lib/sanity-service";
 import { filterProducts, getImageUrl } from "@/app/lib/product-utils";
 import { Product, ProductCategory } from "@/app/lib/types";
+import { getPrimaryPhone, getPrimaryEmail, getPhoneLink, getEmailLink } from "@/app/lib/contact-utils";
+import { useContact } from "@/app/context/ContactContext";
 
 const Products = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,6 +21,7 @@ const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<ProductCategory[]>([]);
   const [loading, setLoading] = useState(true);
+  const { contact } = useContact();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +44,9 @@ const Products = () => {
     const matchesCategory = selectedCategory === "all" || product.category?.slug?.current === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  const primaryPhone = getPrimaryPhone(contact);
+  const primaryEmail = getPrimaryEmail(contact);
 
   if (loading) {
     return (
@@ -185,17 +191,21 @@ const Products = () => {
               </p>
               
               <div className="space-y-4">
-                <Button size="lg" className="w-full">
-                  <a href="tel:+441932269869">
-                    Call: +44 (0) 1932 269869
-                  </a>
-                </Button>
+                {primaryPhone && (
+                  <Button size="lg" className="w-full">
+                    <a href={getPhoneLink(primaryPhone)}>
+                      Call: {primaryPhone.number}
+                    </a>
+                  </Button>
+                )}
                 
-                <Button variant="outline" size="lg" className="w-full">
-                  <a href="mailto:sales@matrixpakistan.com">
-                    Email: sales@matrixpakistan.com
-                  </a>
-                </Button>
+                {primaryEmail && (
+                  <Button variant="outline" size="lg" className="w-full">
+                    <a href={getEmailLink(primaryEmail)}>
+                      Email: {primaryEmail.email}
+                    </a>
+                  </Button>
+                )}
               </div>
             </div>
           </div>

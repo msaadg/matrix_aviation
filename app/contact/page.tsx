@@ -11,13 +11,22 @@ import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { useToast } from "@/app/hooks/use-toast";
 import Header from "@/app/components/layout/Header";
 import Footer from "@/app/components/layout/Footer";
+import { 
+  getPrimaryPhone, 
+  getPrimaryEmail, 
+  getPhoneByLabel,
+  getPhoneLink, 
+  getEmailLink 
+} from "@/app/lib/contact-utils";
+import { useContact } from "@/app/context/ContactContext";
 
-const Contact = () => {
+const ContactPage = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
+  const { contact } = useContact();
   const { toast } = useToast();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -34,6 +43,11 @@ const Contact = () => {
     });
     setFormData({ name: "", email: "", message: "" });
   };
+
+  const primaryPhone = getPrimaryPhone(contact);
+  const primaryEmail = getPrimaryEmail(contact);
+  const telPhone = getPhoneByLabel(contact, 'tel');
+  const mobilePhone = getPhoneByLabel(contact, 'mobile');
 
   return (
     <div>
@@ -64,74 +78,91 @@ const Contact = () => {
                         Get in Touch
                       </h3>
                       <div className="grid md:grid-cols-2 gap-6">
-                        <Card>
-                          <CardHeader>
-                            <CardTitle className="flex items-center text-primary">
-                              <MapPin className="w-5 h-5 mr-2" />
-                              Address
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <address className="not-italic text-matrix-gray">
-                              Unit 1A, Watchmoor Point<br />
-                              Camberley, Surrey<br />
-                              GU15 3AD, UK
-                            </address>
-                          </CardContent>
-                        </Card>
+                        {contact && contact.address && (
+                          <Card>
+                            <CardHeader>
+                              <CardTitle className="flex items-center text-primary">
+                                <MapPin className="w-5 h-5 mr-2" />
+                                Address
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <address className="not-italic text-matrix-gray">
+                                {contact.address.street}<br />
+                                {contact.address.city}, {contact.address.state}<br />
+                                Post code: {contact.address.postalCode} {contact.address.country}
+                              </address>
+                            </CardContent>
+                          </Card>
+                        )}
 
-                        <Card>
-                          <CardHeader>
-                            <CardTitle className="flex items-center text-primary">
-                              <Phone className="w-5 h-5 mr-2" />
-                              Phone
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <a 
-                              href="tel:+441932269869"
-                              className="text-matrix-gray hover:text-primary transition-colors"
-                            >
-                              +44 (0) 1932 269869
-                            </a>
-                          </CardContent>
-                        </Card>
+                        {(telPhone || primaryPhone) && (
+                          <Card>
+                            <CardHeader>
+                              <CardTitle className="flex items-center text-primary">
+                                <Phone className="w-5 h-5 mr-2" />
+                                Phone
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="space-y-2">
+                                {telPhone && (
+                                  <a 
+                                    href={getPhoneLink(telPhone)}
+                                    className="block text-matrix-gray hover:text-primary transition-colors"
+                                  >
+                                    Tel: {telPhone.number}
+                                  </a>
+                                )}
+                                {mobilePhone && (
+                                  <a 
+                                    href={getPhoneLink(mobilePhone)}
+                                    className="block text-matrix-gray hover:text-primary transition-colors"
+                                  >
+                                    Mobile/WhatsApp: {mobilePhone.number}
+                                  </a>
+                                )}
+                              </div>
+                            </CardContent>
+                          </Card>
+                        )}
 
-                        <Card>
-                          <CardHeader>
-                            <CardTitle className="flex items-center text-primary">
-                              <Mail className="w-5 h-5 mr-2" />
-                              Email
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <a 
-                              href="mailto:sales@matrixpakistan.com"
-                              className="text-matrix-gray hover:text-primary transition-colors"
-                            >
-                              sales@matrixpakistan.com
-                            </a>
-                          </CardContent>
-                        </Card>
+                        {primaryEmail && (
+                          <Card>
+                            <CardHeader>
+                              <CardTitle className="flex items-center text-primary">
+                                <Mail className="w-5 h-5 mr-2" />
+                                Email
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <a 
+                                href={getEmailLink(primaryEmail)}
+                                className="text-matrix-gray hover:text-primary transition-colors"
+                              >
+                                {primaryEmail.email}
+                              </a>
+                            </CardContent>
+                          </Card>
+                        )}
 
-                        <Card>
-                          <CardHeader>
-                            <CardTitle className="flex items-center text-primary">
-                              <Clock className="w-5 h-5 mr-2" />
-                              Hours
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="text-matrix-gray">
-                              <p>Monday - Friday: 8:00 AM - 5:00 PM</p>
-                              <p>Saturday - Sunday: Closed</p>
-                            </div>
-                          </CardContent>
-                        </Card>
+                        {contact && contact.businessHours && (
+                          <Card>
+                            <CardHeader>
+                              <CardTitle className="flex items-center text-primary">
+                                <Clock className="w-5 h-5 mr-2" />
+                                Hours
+                              </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <div className="text-matrix-gray">
+                                {contact.businessHours || "Monday - Friday: 8:00 AM - 5:00 PM"}
+                              </div>
+                            </CardContent>
+                          </Card>
+                        )}
                       </div>
-                    </div>
-
-                    <div className="bg-muted rounded-lg p-6">
+                    </div>                    <div className="bg-muted rounded-lg p-6">
                       <h4 className="text-xl font-bold text-matrix-gray mb-4">
                         Office Location
                       </h4>
@@ -213,4 +244,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default ContactPage;

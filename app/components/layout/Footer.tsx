@@ -1,7 +1,23 @@
+'use client'
 import { MapPin, Phone, Mail, Linkedin, Facebook, Instagram, Youtube } from "lucide-react";
 import Link from "next/link";
+import { 
+  formatAddressMultiline, 
+  getPrimaryPhone, 
+  getPrimaryEmail, 
+  getPhoneLink, 
+  getEmailLink, 
+  getSocialLinks 
+} from "@/app/lib/contact-utils";
+import { useContact } from "@/app/context/ContactContext";
 
 const Footer = () => {
+  const { contact } = useContact();
+
+  const primaryPhone = getPrimaryPhone(contact);
+  const primaryEmail = getPrimaryEmail(contact);
+  const socialLinks = getSocialLinks(contact);
+
   return (
     <footer className="bg-matrix-gray text-white">
       <div className="container mx-auto px-4 py-12">
@@ -63,32 +79,37 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-primary">Contact Info</h3>
             <div className="space-y-3">
-              <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                <div className="text-gray-300 text-sm">
-                  Unit 1A, Watchmoor<br />
-                  Camberley, Surrey<br />
-                  GU15 3AD, UK
+              {contact && contact.address && (
+                <div className="flex items-start space-x-3">
+                  <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                  <div 
+                    className="text-gray-300 text-sm"
+                    dangerouslySetInnerHTML={{ __html: formatAddressMultiline(contact) }}
+                  />
                 </div>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-primary flex-shrink-0" />
-                <a
-                  href="tel:+441932269869"
-                  className="text-gray-300 hover:text-white transition-colors duration-300 text-sm"
-                >
-                  +44 (0) 1932 269869
-                </a>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-primary flex-shrink-0" />
-                <a
-                  href="mailto:sales@matrixpakistan.com"
-                  className="text-gray-300 hover:text-white transition-colors duration-300 text-sm"
-                >
-                  sales@matrixpakistan.com
-                </a>
-              </div>
+              )}
+              {primaryPhone && (
+                <div className="flex items-center space-x-3">
+                  <Phone className="w-5 h-5 text-primary flex-shrink-0" />
+                  <a
+                    href={getPhoneLink(primaryPhone)}
+                    className="text-gray-300 hover:text-white transition-colors duration-300 text-sm"
+                  >
+                    {primaryPhone.number}
+                  </a>
+                </div>
+              )}
+              {primaryEmail && (
+                <div className="flex items-center space-x-3">
+                  <Mail className="w-5 h-5 text-primary flex-shrink-0" />
+                  <a
+                    href={getEmailLink(primaryEmail)}
+                    className="text-gray-300 hover:text-white transition-colors duration-300 text-sm"
+                  >
+                    {primaryEmail.email}
+                  </a>
+                </div>
+              )}
             </div>
           </div>
 
@@ -97,25 +118,25 @@ const Footer = () => {
             <h3 className="text-lg font-semibold text-primary">Connect</h3>
             <div className="flex space-x-4">
               <a
-                href="#"
+                href={socialLinks.linkedin}
                 className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center hover:bg-primary transition-colors duration-300"
               >
                 <Linkedin className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href={socialLinks.facebook}
                 className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center hover:bg-primary transition-colors duration-300"
               >
                 <Facebook className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href={socialLinks.instagram}
                 className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center hover:bg-primary transition-colors duration-300"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a
-                href="#"
+                href={socialLinks.youtube}
                 className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center hover:bg-primary transition-colors duration-300"
               >
                 <Youtube className="w-5 h-5" />

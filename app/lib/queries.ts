@@ -321,6 +321,38 @@ export const searchProductsQuery = groq`
   }
 `;
 
+// Get contact information
+export const contactQuery = groq`
+  *[_type == "contact"][0]{
+    _id,
+    name,
+    address{
+      street,
+      city,
+      state,
+      postalCode,
+      country
+    },
+    phones[]{
+      label,
+      number,
+      isPrimary
+    },
+    emails[]{
+      label,
+      email,
+      isPrimary
+    },
+    socialMedia{
+      linkedin,
+      facebook,
+      instagram,
+      youtube
+    },
+    businessHours
+  }
+`;
+
 // example query to fetch page data
 // export const pageDataQuery = groq`
 //   *[_type == "pageData"][0]{

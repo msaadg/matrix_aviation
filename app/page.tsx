@@ -7,8 +7,14 @@ import { Button } from "@/app/components/ui/button";
 import { Card, CardContent } from "@/app/components/ui/card";
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
+import { getPrimaryPhone, getPrimaryEmail, getPhoneLink, getEmailLink } from "@/app/lib/contact-utils";
+import { useContact } from "./context/ContactContext";
 
 const Home = () => {
+  const { contact } = useContact();
+
+  const primaryPhone = getPrimaryPhone(contact);
+  const primaryEmail = getPrimaryEmail(contact);
 
   const features = [
     {
@@ -197,16 +203,20 @@ const Home = () => {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                  <Button size="lg" className="flex-1">
-                    <a href="tel:+441932269869" className="flex items-center">
-                      Call Now: +44 (0) 1932 269869
-                    </a>
-                  </Button>
-                  <Button variant="outline" size="lg" className="flex-1">
-                    <a href="mailto:sales@matrixpakistan.com">
-                      Email Us
-                    </a>
-                  </Button>
+                  {primaryPhone && (
+                    <Button size="lg" className="flex-1">
+                      <a href={getPhoneLink(primaryPhone)} className="flex items-center">
+                        Call Now: {primaryPhone.number}
+                      </a>
+                    </Button>
+                  )}
+                  {primaryEmail && (
+                    <Button variant="outline" size="lg" className="flex-1">
+                      <a href={getEmailLink(primaryEmail)}>
+                        Email Us
+                      </a>
+                    </Button>
+                  )}
                 </div>
               </div>
 

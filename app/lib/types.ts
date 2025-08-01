@@ -160,3 +160,41 @@ export interface SubProductDetailResponse {
 //   linkedIn: string;
 //   youtube: string;
 // }
+
+// Contact information interfaces
+export interface Address {
+  street: string
+  city: string
+  state: string
+  postalCode: string
+  country: string
+}
+
+export interface PhoneNumber {
+  label: 'tel' | 'mobile' | 'fax'
+  number: string
+  isPrimary?: boolean
+}
+
+export interface EmailAddress {
+  label: 'sales' | 'support' | 'general' | 'info'
+  email: string
+  isPrimary?: boolean
+}
+
+export interface SocialMedia {
+  linkedin?: string
+  facebook?: string
+  instagram?: string
+  youtube?: string
+}
+
+export interface Contact {
+  _id: string
+  name: string
+  address: Address
+  phones: PhoneNumber[]
+  emails: EmailAddress[]
+  socialMedia: SocialMedia
+  businessHours?: string
+}

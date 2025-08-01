@@ -10,6 +10,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/app/components/ui/dropdown-menu";
+import { getPrimaryPhone, getPhoneLink } from "@/app/lib/contact-utils";
+import { useContact } from "@/app/context/ContactContext";
 
 interface HeaderProps {
   variant?: 'default' | 'dark';
@@ -18,6 +20,7 @@ interface HeaderProps {
 const Header = ({ variant = 'default' }: HeaderProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { contact } = useContact();
   const pathname = usePathname();
 
   useEffect(() => {
@@ -44,6 +47,7 @@ const Header = ({ variant = 'default' }: HeaderProps) => {
 
   const isActive = (path: string) => pathname === path;
   const isCompanyActive = companyDropdown.some(item => isActive(item.href));
+  const primaryPhone = getPrimaryPhone(contact);
 
   // Helper function to get text color based on variant and scroll state
   const getTextColor = (isActive: boolean) => {
@@ -134,18 +138,20 @@ const Header = ({ variant = 'default' }: HeaderProps) => {
 
           {/* Contact Button */}
           <div className="hidden lg:flex items-center space-x-4">
-            <a
-              href="tel:+441932269869"
-              className={`text-sm font-medium transition-colors duration-300 hover:text-primary ${
-                variant === 'dark' 
-                  ? "text-black" 
-                  : isScrolled 
-                    ? "text-matrix-gray" 
-                    : "text-white"
-              }`}
-            >
-              +44 (0) 1932 269869
-            </a>
+            {primaryPhone && (
+              <a
+                href={getPhoneLink(primaryPhone)}
+                className={`text-sm font-medium transition-colors duration-300 hover:text-primary ${
+                  variant === 'dark' 
+                    ? "text-black" 
+                    : isScrolled 
+                      ? "text-matrix-gray" 
+                      : "text-white"
+                }`}
+              >
+                {primaryPhone.number}
+              </a>
+            )}
             <Link href="/contact">
               <Button
                 variant="outline"
@@ -226,12 +232,14 @@ const Header = ({ variant = 'default' }: HeaderProps) => {
               </Link>
               
               <div className="pt-4 border-t mt-4">
-                <a
-                  href="tel:+441932269869"
-                  className="block px-4 py-2 text-sm text-matrix-gray"
-                >
-                  +44 (0) 1932 269869
-                </a>
+                {primaryPhone && (
+                  <a
+                    href={getPhoneLink(primaryPhone)}
+                    className="block px-4 py-2 text-sm text-matrix-gray"
+                  >
+                    {primaryPhone.number}
+                  </a>
+                )}
               </div>
             </nav>
           </div>

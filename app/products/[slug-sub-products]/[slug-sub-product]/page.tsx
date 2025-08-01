@@ -19,6 +19,8 @@ import {
   formatSpecifications 
 } from "@/app/lib/product-utils";
 import { SubProduct } from "@/app/lib/types";
+import { getPrimaryPhone, getPrimaryEmail, getPhoneLink, getEmailLink } from "@/app/lib/contact-utils";
+import { useContact } from "@/app/context/ContactContext";
 
 const ProductDetail = () => {
   const { 
@@ -29,19 +31,20 @@ const ProductDetail = () => {
   const [subProduct, setSubProduct] = useState<SubProduct | null>(null);
   const [relatedSubProducts, setRelatedSubProducts] = useState<SubProduct[]>([]);
   const [loading, setLoading] = useState(true);
+  const { contact } = useContact();
 
   useEffect(() => {
     const fetchData = async () => {
       if (!subProductSlug || typeof subProductSlug !== 'string') return;
       
       try {
-        const data = await getSubProductBySlug(subProductSlug);
-        if (data) {
-          setSubProduct(data.subProduct);
-          setRelatedSubProducts(data.relatedSubProducts);
+        const subProductData = await getSubProductBySlug(subProductSlug);
+        if (subProductData) {
+          setSubProduct(subProductData.subProduct);
+          setRelatedSubProducts(subProductData.relatedSubProducts);
         }
       } catch (error) {
-        console.error('Error fetching sub product:', error);
+        console.error('Error fetching data:', error);
       } finally {
         setLoading(false);
       }
@@ -49,6 +52,9 @@ const ProductDetail = () => {
 
     fetchData();
   }, [subProductSlug]);
+
+  const primaryPhone = getPrimaryPhone(contact);
+  const primaryEmail = getPrimaryEmail(contact);
 
   if (loading) {
     return (
@@ -173,18 +179,22 @@ const ProductDetail = () => {
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                  <Button size="lg" className="flex-1" asChild>
-                    <a href="tel:+441932269869">
-                      <Phone className="mr-2 w-5 h-5" />
-                      Call for Quote
-                    </a>
-                  </Button>
-                  <Button variant="outline" size="lg" className="flex-1" asChild>
-                    <a href="mailto:sales@matrixpakistan.com">
-                      <Mail className="mr-2 w-5 h-5" />
-                      Request Info
-                    </a>
-                  </Button>
+                  {primaryPhone && (
+                    <Button size="lg" className="flex-1" asChild>
+                      <a href={getPhoneLink(primaryPhone)}>
+                        <Phone className="mr-2 w-5 h-5" />
+                        Call for Quote
+                      </a>
+                    </Button>
+                  )}
+                  {primaryEmail && (
+                    <Button variant="outline" size="lg" className="flex-1" asChild>
+                      <a href={getEmailLink(primaryEmail)}>
+                        <Mail className="mr-2 w-5 h-5" />
+                        Request Info
+                      </a>
+                    </Button>
+                  )}
                   {hasDatasheet(subProduct) && (
                     <div className="flex-1">
                       <DownloadButton 

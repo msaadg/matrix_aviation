@@ -11,13 +11,16 @@ import Footer from "@/app/components/layout/Footer";
 import { Brand } from "@/app/lib/types";
 import { getBrands } from "@/app/lib/sanity-service";
 import { getImageUrl } from "@/app/lib/product-utils";
+import { getPrimaryPhone, getPrimaryEmail, getPhoneLink, getEmailLink } from "@/app/lib/contact-utils";
+import { useContact } from "@/app/context/ContactContext";
 
 const Brands = () => {
   const [brands, setBrands] = useState<Brand[]>([])
   const [loading, setLoading] = useState(true)
+  const { contact } = useContact();
 
   useEffect(() => {
-    const fetchBrands = async () => {
+    const fetchData = async () => {
       try {
         const brandsData = await getBrands()
         setBrands(brandsData)
@@ -28,7 +31,7 @@ const Brands = () => {
       }
     }
     
-    fetchBrands()
+    fetchData()
   }, [])
 
   const partnerships = [
@@ -48,6 +51,9 @@ const Brands = () => {
       description: "Worldwide service and support network for all partner brand products."
     }
   ];
+
+  const primaryPhone = getPrimaryPhone(contact);
+  const primaryEmail = getPrimaryEmail(contact);
 
   return (
     <div>
@@ -241,17 +247,21 @@ const Brands = () => {
             />
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8 max-w-md mx-auto">
-              <Button size="lg" className="flex-1 bg-white text-matrix-gray hover:bg-white/90">
-                <a href="tel:+441932269869">
-                  +44 (0) 1932 269869
-                </a>
-              </Button>
+              {primaryPhone && (
+                <Button size="lg" className="flex-1 bg-white text-matrix-gray hover:bg-white/90">
+                  <a href={getPhoneLink(primaryPhone)}>
+                    {primaryPhone.number}
+                  </a>
+                </Button>
+              )}
               
-              <Button variant="outline" size="lg" className="flex-1 border-white text-matrix-gray hover:bg-white/90 hover:text-matrix-gray">
-                <a href="mailto:sales@matrixpakistan.com">
-                  Contact Us
-                </a>
-              </Button>
+              {primaryEmail && (
+                <Button variant="outline" size="lg" className="flex-1 border-white text-matrix-gray hover:bg-white/90 hover:text-matrix-gray">
+                  <a href={getEmailLink(primaryEmail)}>
+                    Contact Us
+                  </a>
+                </Button>
+              )}
             </div>
           </div>
         </section>

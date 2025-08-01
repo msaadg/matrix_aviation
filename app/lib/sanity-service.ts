@@ -6,7 +6,8 @@ import {
   ProductsResponse,
   ProductDetailResponse,
   SubProductDetailResponse,
-  Brand
+  Brand,
+  Contact
 } from '@/app/lib/types'
 import {
   productCategoriesQuery,
@@ -18,7 +19,8 @@ import {
   relatedProductsQuery,
   relatedSubProductsQuery,
   featuredProductsQuery,
-  searchProductsQuery
+  searchProductsQuery,
+  contactQuery
 } from '@/app/lib/queries'
 
 // Get all product categories
@@ -260,5 +262,15 @@ export async function getFeaturedBrands(): Promise<Brand[]> {
   } catch (error) {
     console.error('Error fetching featured brands:', error)
     return []
+  }
+}
+
+// Get contact information
+export async function getContactInfo(): Promise<Contact | null> {
+  try {
+    return await client.fetch(contactQuery)
+  } catch (error) {
+    console.error('Error fetching contact info:', error)
+    return null
   }
 }

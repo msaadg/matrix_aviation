@@ -8,6 +8,7 @@ import {productCategoryType} from './productCategoryType'
 import {productType} from './productType'
 import {subProductType} from './subProductType'
 import {brandType} from './brandType'
+import {contactType} from './contactType'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -18,6 +19,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     productCategoryType,
     productType,
     subProductType,
-    brandType
+    brandType,
+    contactType
   ],
 }
