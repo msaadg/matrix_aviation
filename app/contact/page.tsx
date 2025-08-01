@@ -174,8 +174,8 @@ const ContactPage = () => {
                         />
                       </div>
                       <p className="text-sm text-matrix-gray leading-relaxed">
-                        Our modern facility in Camberley, Surrey, houses our sales team and 
-                        technical support staff ready to assist with your aviation fueling needs.
+                        Our modern facility in houses our sales team and technical support staff 
+                        ready to assist with your aviation fueling needs.
                       </p>
                     </div>
                   </div>
