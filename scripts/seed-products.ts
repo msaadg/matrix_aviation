@@ -601,25 +601,7 @@ async function createSubProducts() {
         modelNumber,
         order: i + 1,
         featured: i < 3, // First 3 sub-products in each category are featured
-        available: true,
-        specifications: [
-          {
-            label: 'Material',
-            value: 'Aerospace grade aluminum/stainless steel'
-          },
-          {
-            label: 'Operating Temperature',
-            value: '-40°C to +80°C'
-          },
-          {
-            label: 'Pressure Rating',
-            value: '150 PSI / 10 Bar'
-          },
-          {
-            label: 'Connection Type',
-            value: 'Standard aviation coupling'
-          }
-        ]
+        available: true
       }
       
       try {

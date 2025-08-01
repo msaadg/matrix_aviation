@@ -19,12 +19,6 @@ export interface ProductCategory {
   order?: number
 }
 
-// Specification interface
-export interface Specification {
-  label: string
-  value: string
-}
-
 // Product interface
 export interface Product {
   _id: string
@@ -62,7 +56,6 @@ export interface Product {
       mimeType?: string
     }
   }
-  specifications?: Specification[]
   order?: number
   featured?: boolean
   available?: boolean
@@ -103,7 +96,6 @@ export interface SubProduct {
       mimeType?: string
     }
   }
-  specifications?: Specification[]
   modelNumber?: string
   order?: number
   featured?: boolean
@@ -197,4 +189,44 @@ export interface Contact {
   emails: EmailAddress[]
   socialMedia: SocialMedia
   businessHours?: string
+}
+
+export interface Company {
+  _id: string
+  title: string
+  heroDescription: string
+  storySubtitle?: string
+  storyTitle: string
+  storyDescription: string
+  additionalDescription?: string
+  facilityImage?: {
+    asset: {
+      _ref: string
+      url: string
+    }
+    alt?: string
+  }
+}
+
+export interface ConditionTerm {
+  number: number
+  title: string
+  content: string
+}
+
+export interface ConditionsOfSale {
+  _id: string
+  title: string
+  subtitle?: string
+  description?: string
+  sectionTitle?: string
+  sectionSubtitle?: string
+  terms: ConditionTerm[]
+  backgroundImage?: {
+    asset: {
+      _ref: string
+      url: string
+    }
+    alt?: string
+  }
 }

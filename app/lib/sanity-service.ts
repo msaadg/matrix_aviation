@@ -7,7 +7,9 @@ import {
   ProductDetailResponse,
   SubProductDetailResponse,
   Brand,
-  Contact
+  Contact,
+  Company,
+  ConditionsOfSale
 } from '@/app/lib/types'
 import {
   productCategoriesQuery,
@@ -20,7 +22,9 @@ import {
   relatedSubProductsQuery,
   featuredProductsQuery,
   searchProductsQuery,
-  contactQuery
+  contactQuery,
+  companyQuery,
+  conditionsOfSaleQuery
 } from '@/app/lib/queries'
 
 // Get all product categories
@@ -271,6 +275,26 @@ export async function getContactInfo(): Promise<Contact | null> {
     return await client.fetch(contactQuery)
   } catch (error) {
     console.error('Error fetching contact info:', error)
+    return null
+  }
+}
+
+// Get company information
+export async function getCompanyInfo(): Promise<Company | null> {
+  try {
+    return await client.fetch(companyQuery)
+  } catch (error) {
+    console.error('Error fetching company info:', error)
+    return null
+  }
+}
+
+// Get conditions of sale information
+export async function getConditionsOfSale(): Promise<ConditionsOfSale | null> {
+  try {
+    return await client.fetch(conditionsOfSaleQuery)
+  } catch (error) {
+    console.error('Error fetching conditions of sale:', error)
     return null
   }
 }

@@ -80,16 +80,6 @@ export function generateSubProductBreadcrumb(subProduct: SubProduct) {
   ]
 }
 
-// Format specifications for display
-export function formatSpecifications(specifications?: Array<{label: string, value: string}>) {
-  if (!specifications || specifications.length === 0) return []
-  
-  return specifications.map(spec => ({
-    label: spec.label,
-    value: spec.value
-  }))
-}
-
 // Get product URL
 export function getProductUrl(product: Product): string {
   return `/products/${product.slug?.current}`

@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from 'next/navigation';
 import Link from "next/link";
-import { CheckCircle, Phone, Mail, ArrowRight } from "lucide-react";
+import { Phone, Mail, ArrowRight } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 import { DownloadButton } from "@/app/components/ui/download-button";
 import { Card, CardContent } from "@/app/components/ui/card";
@@ -15,8 +15,7 @@ import {
   getImageUrl, 
   getFileUrl, 
   hasDatasheet,
-  getDatasheetFilename,
-  formatSpecifications 
+  getDatasheetFilename
 } from "@/app/lib/product-utils";
 import { SubProduct } from "@/app/lib/types";
 import { getPrimaryPhone, getPrimaryEmail, getPhoneLink, getEmailLink } from "@/app/lib/contact-utils";
@@ -83,7 +82,6 @@ const ProductDetail = () => {
   const breadcrumbs = generateSubProductBreadcrumb(subProduct);
   const gallery = subProduct.gallery || [];
   const allImages = [subProduct.mainImage, ...gallery];
-  const specifications = formatSpecifications(subProduct.specifications);
 
   return (
     <div>
@@ -157,25 +155,12 @@ const ProductDetail = () => {
                       Model: <span className="font-semibold">{subProduct.modelNumber}</span>
                     </div>
                   )}
-                  <p className="text-xl text-muted-foreground leading-relaxed">
-                    {subProduct.shortDescription}
-                  </p>
-                </div>
-
-                {/* Key Features */}
-                {subProduct.features && subProduct.features.length > 0 && (
-                  <div className="space-y-3">
-                    <h3 className="text-lg font-semibold text-matrix-gray">Key Features:</h3>
-                    <div className="space-y-2">
-                      {subProduct.features.map((feature, index) => (
-                        <div key={index} className="flex items-center space-x-2">
-                          <CheckCircle className="w-5 h-5 text-primary" />
-                          <span className="text-muted-foreground">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
+                  <div className="text-xl text-muted-foreground leading-relaxed">
+                    {subProduct.longDescription && (
+                      <PortableText value={subProduct.longDescription} />
+                    )}
                   </div>
-                )}
+                </div>
 
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-6">
@@ -200,7 +185,7 @@ const ProductDetail = () => {
                       <DownloadButton 
                         url={getFileUrl(subProduct.datasheet, getDatasheetFilename(subProduct)) || '#'}
                         filename={getDatasheetFilename(subProduct)}
-                        className="w-full px-12"
+                        className="w-full px-14"
                       />
                     </div>
                   )}
@@ -209,43 +194,6 @@ const ProductDetail = () => {
             </div>
           </div>
         </section>
-
-        {/* Detailed Description */}
-        {subProduct.longDescription && (
-          <section className="py-16 bg-gray-50">
-            <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto">
-                <h2 className="text-3xl font-bold text-matrix-gray mb-8">Product Details</h2>
-                <div className="text-muted-foreground leading-relaxed">
-                  {subProduct.longDescription && (
-                    <PortableText value={subProduct.longDescription} />
-                  )}
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Technical Specifications */}
-        {specifications.length > 0 && (
-          <section className="py-16 bg-white">
-            <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto">
-                <h2 className="text-3xl font-bold text-matrix-gray mb-8">Technical Specifications</h2>
-                <div className="bg-gray-50 rounded-lg p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {specifications.map((spec, index) => (
-                      <div key={index} className="flex justify-between items-center py-2 border-b border-gray-200 last:border-b-0">
-                        <span className="font-medium text-matrix-gray">{spec.label}:</span>
-                        <span className="text-muted-foreground">{spec.value}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
 
         {/* Related Products */}
         {relatedSubProducts.length > 0 && (

@@ -19,14 +19,14 @@ const PrivacyPolicy = () => {
           showScrollIndicator={false}
         />
 
-        <section id="next-section" className="py-20 bg-white">
+        <section id="next-section" className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <SectionHeader
               title="Data Protection"
               subtitle="How we collect, use, and protect your information"
             />
 
-            <div className="max-w-6xl mx-auto">
+            <div className="max-w-6xl mx-auto pt-4">
               <div className="grid lg:grid-cols-5 gap-12 mt-8">
                 <div className="lg:col-span-3">
                   <div className="space-y-8">
@@ -127,15 +127,28 @@ const PrivacyPolicy = () => {
                 <div className="lg:col-span-2">
                   <div className="space-y-8">
                     <div className="bg-muted rounded-lg p-6">
-                      <h4 className="text-xl font-bold text-matrix-gray mb-4">
-                        Data Flow Diagram
+                      <h4 className="text-xl font-bold text-matrix-gray mb-4 flex items-center">
+                        <Lock className="w-5 h-5 text-green-600 mr-2" />
+                        Data Flow Process
                       </h4>
-                      <div className="aspect-[4/3] bg-gray-200 rounded-lg mb-4 flex items-center justify-center">
-                        <span className="text-gray-500">Data Flow Visualization</span>
-                      </div>
-                      <p className="text-sm text-matrix-gray leading-relaxed">
-                        Visual representation of how your data moves through our systems.
-                      </p>
+                      <ul className="space-y-2 text-sm text-matrix-gray">
+                        <li className="flex items-start">
+                          <span className="text-green-600 mr-2">1.</span>
+                          Collection via secure web forms and encrypted communications
+                        </li>
+                        <li className="flex items-start">
+                          <span className="text-green-600 mr-2">2.</span>
+                          Processing in our data center with access controls
+                        </li>
+                        <li className="flex items-start">
+                          <span className="text-green-600 mr-2">3.</span>
+                          Storage in encrypted databases with regular backups
+                        </li>
+                        <li className="flex items-start">
+                          <span className="text-green-600 mr-2">4.</span>
+                          Deletion upon request or when no longer necessary
+                        </li>
+                      </ul>
                     </div>
 
                     <div className="bg-muted rounded-lg p-6">
@@ -154,23 +167,9 @@ const PrivacyPolicy = () => {
                         </li>
                         <li className="flex items-center">
                           <Shield className="w-4 h-4 text-green-600 mr-2" />
-                          Secure UK servers at Pitfield House, Shepperton
+                          Secure servers with advanced threat detection
                         </li>
                       </ul>
-                    </div>
-
-                    <div className="bg-muted rounded-lg p-6">
-                      <h4 className="text-xl font-bold text-matrix-gray mb-4">
-                        Data Storage
-                      </h4>
-                      <p className="text-sm text-matrix-gray leading-relaxed mb-4">
-                        All data is stored securely on UK-based servers located at:
-                      </p>
-                      <address className="text-sm text-matrix-gray not-italic">
-                        Pitfield House<br />
-                        Shepperton<br />
-                        United Kingdom
-                      </address>
                     </div>
                   </div>
                 </div>

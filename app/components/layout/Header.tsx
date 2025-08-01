@@ -41,7 +41,6 @@ const Header = ({ variant = 'default' }: HeaderProps) => {
   const companyDropdown = [
     { name: "Company Profile", href: "/company" },
     { name: "Conditions of Sale", href: "/conditions-of-sale" },
-    { name: "Copyright Statement", href: "/copyright-statement" },
     { name: "Privacy Policy", href: "/privacy-policy" },
   ];
 

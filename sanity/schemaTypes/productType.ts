@@ -121,32 +121,6 @@ export const productType = defineType({
       description: 'PDF or document file for product specifications'
     }),
     defineField({
-      name: 'specifications',
-      title: 'Technical Specifications',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          name: 'specification',
-          title: 'Specification',
-          fields: [
-            defineField({
-              name: 'label',
-              title: 'Specification Label',
-              type: 'string',
-              validation: Rule => Rule.required()
-            }),
-            defineField({
-              name: 'value',
-              title: 'Specification Value',
-              type: 'string',
-              validation: Rule => Rule.required()
-            })
-          ]
-        })
-      ]
-    }),
-    defineField({
       name: 'order',
       title: 'Display Order',
       type: 'number',

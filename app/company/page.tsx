@@ -1,12 +1,34 @@
 'use client'
+import { useEffect, useState } from "react";
 import { Users, Target, Award, Globe, TrendingUp, Shield } from "lucide-react";
 import HeroSection from "@/app/components/ui/hero-section";
 import SectionHeader from "@/app/components/ui/section-header";
 import { Card, CardContent } from "@/app/components/ui/card";
 import Header from "@/app/components/layout/Header";
 import Footer from "@/app/components/layout/Footer";
+import { getCompanyInfo } from "@/app/lib/sanity-service";
+import { Company } from "@/app/lib/types";
+import { urlFor } from "@/sanity/lib/image";
 
-const Company = () => {
+const CompanyPage = () => {
+  const [companyData, setCompanyData] = useState<Company | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCompanyData = async () => {
+      try {
+        const data = await getCompanyInfo();
+        setCompanyData(data);
+      } catch (error) {
+        console.error('Error fetching company data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCompanyData();
+  }, []);
+
   const values = [
     {
       icon: Shield,
@@ -33,12 +55,20 @@ const Company = () => {
   return (
     <div>
       <Header />
+      {loading ? (
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-matrix-gray">Loading company information...</p>
+          </div>
+        </div>
+      ) : (
       <div>
         {/* Hero Section */}
         <HeroSection
-          title="About Matrix Aviation"
+          title={companyData?.title || "About Matrix Aviation"}
           subtitle="Specialists in Aviation Fueling"
-          description="Founded in 2010, Matrix Aviation provides specialized equipment for aviation fuel storage, distribution, and dispensing, serving major oil companies, airports, and manufacturers globally."
+          description={companyData?.heroDescription || "Established in 2016, Matrix Aviation supplies ground fueling and jet fuel testing equipment, serving leading oil companies, refineries, and airports."}
           backgroundImage="/warehouse_facility.png"
           showScrollIndicator={true}
         />
@@ -49,30 +79,23 @@ const Company = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <SectionHeader
-                  subtitle="Our Story"
-                  title="Innovation Driven by Experience"
-                  description="Matrix Aviation was formed to innovate fueling solutions for the modern aviation industry. We combine deep technical expertise with a commitment to safety and reliability."
+                  subtitle={companyData?.storySubtitle || "Our Story"}
+                  title={companyData?.storyTitle || "Innovation Driven by Experience"}
+                  description={companyData?.storyDescription || "Matrix Aviation delivers innovative fueling solutions tailored for the modern aviation industry. With a strong focus on safety, reliability, and technical excellence, we serve major oil companies, international airports, and aviation manufacturers across Pakistan."}
                   centered={false}
                 />
                 
                 <div className="space-y-6 mt-8">
                   <p className="text-muted-foreground leading-relaxed">
-                    Since our founding, we have established ourselves as a trusted partner to major UK oil companies, 
-                    international airports, and aviation manufacturers. Our focus on quality control systems, 
-                    static bonding equipment, and specialized fueling solutions has made us an industry leader.
-                  </p>
-                  
-                  <p className="text-muted-foreground leading-relaxed">
-                    Our team of experts brings decades of combined experience in aviation fuel handling, 
-                    ensuring that every product meets the highest standards of safety and performance.
+                    {companyData?.additionalDescription || "Specializing in quality control systems, static bonding, and ground fueling equipment, our experienced team ensures every product meets the highest standards of performance and safety."}
                   </p>
                 </div>
               </div>
               
               <div className="aspect-square overflow-hidden rounded-2xl">
                 <img
-                  src="facility.png"
-                  alt="Matrix Aviation Facility"
+                  src={companyData?.facilityImage ? urlFor(companyData.facilityImage).width(800).height(800).url() : "facility.png"}
+                  alt={companyData?.facilityImage?.alt || "Matrix Aviation Facility"}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
               </div>
@@ -149,9 +172,10 @@ const Company = () => {
           </div>
         </section>
       </div>
+      )}
     <Footer />  
     </div>
   );
 };
 
-export default Company;
+export default CompanyPage;

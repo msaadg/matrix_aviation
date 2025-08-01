@@ -61,7 +61,8 @@ export const subProductType = defineType({
           },
         }),
       ],
-      description: 'Detailed description for sub product detail pages'
+      description: 'Detailed description for sub product detail pages',
+      validation: Rule => Rule.required()
     }),
     defineField({
       name: 'mainImage',
@@ -119,32 +120,6 @@ export const subProductType = defineType({
         accept: '.pdf,.doc,.docx'
       },
       description: 'PDF or document file for sub product specifications'
-    }),
-    defineField({
-      name: 'specifications',
-      title: 'Technical Specifications',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          name: 'specification',
-          title: 'Specification',
-          fields: [
-            defineField({
-              name: 'label',
-              title: 'Specification Label',
-              type: 'string',
-              validation: Rule => Rule.required()
-            }),
-            defineField({
-              name: 'value',
-              title: 'Specification Value',
-              type: 'string',
-              validation: Rule => Rule.required()
-            })
-          ]
-        })
-      ]
     }),
     defineField({
       name: 'modelNumber',

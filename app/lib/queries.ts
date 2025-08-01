@@ -106,7 +106,6 @@ export const productBySlugQuery = groq`
         mimeType
       }
     },
-    specifications,
     category->{
       _id,
       title,
@@ -180,7 +179,6 @@ export const subProductBySlugQuery = groq`
         mimeType
       }
     },
-    specifications,
     modelNumber,
     parentProduct->{
       _id,
@@ -350,6 +348,50 @@ export const contactQuery = groq`
       youtube
     },
     businessHours
+  }
+`;
+
+// Get company information
+export const companyQuery = groq`
+  *[_type == "company"][0]{
+    _id,
+    title,
+    heroDescription,
+    storySubtitle,
+    storyTitle,
+    storyDescription,
+    additionalDescription,
+    facilityImage{
+      asset->{
+        _ref,
+        url
+      },
+      alt
+    }
+  }
+`;
+
+// Get conditions of sale information
+export const conditionsOfSaleQuery = groq`
+  *[_type == "conditionsOfSale"][0]{
+    _id,
+    title,
+    subtitle,
+    description,
+    sectionTitle,
+    sectionSubtitle,
+    terms[] | order(number asc) {
+      number,
+      title,
+      content
+    },
+    backgroundImage{
+      asset->{
+        _ref,
+        url
+      },
+      alt
+    }
   }
 `;
 
