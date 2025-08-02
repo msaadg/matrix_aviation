@@ -64,7 +64,7 @@ const Brands = () => {
           title="Trusted Brands & Products"
           subtitle="Quality You Can Rely On"
           description="Matrix Aviation partners with globally respected manufacturers to deliver premium aviation fueling solutions that meet the highest industry standards."
-          backgroundImage="/plane.png"
+          backgroundImage="/plane.jpg"
         />
 
         {/* Partnership Values */}

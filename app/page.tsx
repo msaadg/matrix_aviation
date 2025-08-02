@@ -18,22 +18,22 @@ const Home = () => {
 
   const features = [
     {
-      icon: Shield,
-      title: "Safety First",
-      description: "Engineered with the highest safety standards for aviation fuel handling and distribution.",
-      image: "/turbine.png"
-    },
-    {
       icon: Zap,
       title: "Innovation",
       description: "Cutting-edge technology solutions that define the future of aviation fueling systems.",
-      image: "/pipes.png"
+      image: "/refueling.jpg"
+    },
+    {
+      icon: Shield,
+      title: "Safety First",
+      description: "Engineered with the highest safety standards for aviation fuel handling and distribution.",
+      image: "/navy-carter.jpg"
     },
     {
       icon: Globe,
       title: "Global Reach",
       description: "Serving major oil companies, airports, and manufacturers worldwide with reliable solutions.",
-      image: "/warehouse_facility.png"
+      image: "/turbine.jpg"
     }
   ];
 
@@ -46,7 +46,7 @@ const Home = () => {
           title="Welcome to Matrix Aviation"
           subtitle="Innovative Solutions in Aviation Fueling"
           description="At Matrix Aviation, we deliver state-of-the-art fueling systems with a commitment to safety, quality, and environmental stewardship, ensuring the future of aviation."
-          backgroundImage="/plane.png"
+          backgroundImage="/hero.jpg"
           ctaText="Discover More"
         />
 
@@ -222,7 +222,7 @@ const Home = () => {
 
               <div className="aspect-square overflow-hidden rounded-2xl">
                 <img
-                  src="/facility.png"
+                  src="/plane.jpg"
                   alt="Matrix Aviation Facility"
                   className="w-full h-full object-cover"
                 />

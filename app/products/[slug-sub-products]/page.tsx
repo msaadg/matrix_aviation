@@ -94,7 +94,7 @@ const SubProductsPage = () => {
           title={product.title}
           subtitle={product.subtitle || "Quality Aviation Solutions"}
           description={product.description || "Discover our comprehensive range of specialized aviation equipment designed for safety, efficiency, and reliability."}
-          backgroundImage={getImageUrl(product.mainImage, 1920, 1080) || "/turbine.png"}
+          backgroundImage={getImageUrl(product.mainImage, 1920, 1080) || "/turbine.jpg"}
         />
 
         {/* Breadcrumb */}

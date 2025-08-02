@@ -68,7 +68,7 @@ const Products = () => {
           title="Our Innovative Products"
           subtitle="Quality Solutions for Aviation Fueling"
           description="Discover our comprehensive range of aviation fueling equipment designed for safety, efficiency, and reliability."
-          backgroundImage="/turbine.png"
+          backgroundImage="/turbine.jpg"
         />
 
         {/* Search and Filter Section */}

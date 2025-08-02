@@ -168,7 +168,7 @@ const ContactPage = () => {
                       </h4>
                       <div className="aspect-[4/3] bg-gray-200 rounded-lg mb-4 flex items-center justify-center">
                         <img
-                          src="/facility.png"
+                          src="/refueling.jpg"
                           alt="Matrix Aviation Facility"
                           className="w-full h-full object-cover"
                         />

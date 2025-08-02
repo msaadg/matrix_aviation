@@ -69,7 +69,7 @@ const CompanyPage = () => {
           title={companyData?.title || "About Matrix Aviation"}
           subtitle="Specialists in Aviation Fueling"
           description={companyData?.heroDescription || "Established in 2016, Matrix Aviation supplies ground fueling and jet fuel testing equipment, serving leading oil companies, refineries, and airports."}
-          backgroundImage="/warehouse_facility.png"
+          backgroundImage="/navy-carter.jpg"
           showScrollIndicator={true}
         />
 
@@ -94,7 +94,7 @@ const CompanyPage = () => {
               
               <div className="aspect-square overflow-hidden rounded-2xl">
                 <img
-                  src={companyData?.facilityImage ? urlFor(companyData.facilityImage).width(800).height(800).url() : "facility.png"}
+                  src={companyData?.facilityImage ? urlFor(companyData.facilityImage).width(800).height(800).url() : "plane.jpg"}
                   alt={companyData?.facilityImage?.alt || "Matrix Aviation Facility"}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                 />
@@ -129,14 +129,14 @@ const CompanyPage = () => {
         </section>
 
         {/* Leadership Section */}
-        <section className="py-20 bg-matrix-gray text-white">
+        <section className="py-20 bg-neutral-800 text-white">
           <div className="container mx-auto px-4">
             <SectionHeader
               subtitle="Leadership"
               title="Expert Team"
               description="Our leadership team brings decades of combined experience in aviation fueling and industrial automation."
               variant="light"
-            />
+            />  
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
               <Card className="bg-white/10 border-white/20 text-white">
