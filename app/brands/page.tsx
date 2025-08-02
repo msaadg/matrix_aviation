@@ -131,12 +131,12 @@ const Brands = () => {
                   <Card key={brand._id} className="card-hover">
                     <CardContent className="p-0">
                       <div className="space-y-4">
-                        <div className="h-48 overflow-hidden">
+                        <div className="h-48 overflow-hidden bg-white">
                           {brand.logo ? (
                             <img
                               src={getImageUrl(brand.logo)}
                               alt={brand.title}
-                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                              className="w-full h-full object-contain p-4 hover:scale-105 transition-transform duration-500"
                             />
                           ) : (
                             <div className="w-full h-full bg-gradient-to-br from-primary/10 to-primary/20 flex items-center justify-center">

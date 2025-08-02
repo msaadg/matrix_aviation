@@ -127,11 +127,11 @@ const Products = () => {
               {filteredProducts.map((product) => (
                 <Card key={product._id} className="card-hover group">
                   <CardContent className="p-0">
-                    <div className="aspect-video overflow-hidden rounded-t-lg">
+                    <div className="aspect-video overflow-hidden rounded-t-lg bg-white">
                       <img
                         src={getImageUrl(product.mainImage, 400, 300)}
                         alt={product.mainImage?.alt || product.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
                     

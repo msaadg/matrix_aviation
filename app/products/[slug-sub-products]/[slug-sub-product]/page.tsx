@@ -111,11 +111,11 @@ const ProductDetail = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
               {/* Image Gallery */}
               <div className="space-y-4">
-                <div className="aspect-square overflow-hidden rounded-2xl bg-gray-100">
+                <div className="aspect-square overflow-hidden rounded-2xl bg-white">
                   <img
                     src={getImageUrl(allImages[selectedImage], 600, 600)}
                     alt={allImages[selectedImage]?.alt || subProduct.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain p-4"
                   />
                 </div>
                 
@@ -126,14 +126,14 @@ const ProductDetail = () => {
                       <button
                         key={index}
                         onClick={() => setSelectedImage(index)}
-                        className={`aspect-square overflow-hidden rounded-lg border-2 transition-colors ${
+                        className={`aspect-square overflow-hidden rounded-lg border-2 transition-colors bg-white ${
                           selectedImage === index ? "border-primary" : "border-gray-200"
                         }`}
                       >
                         <img
                           src={getImageUrl(image, 150, 150)}
                           alt={`${subProduct.title} view ${index + 1}`}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain p-2"
                         />
                       </button>
                     ))}
@@ -205,11 +205,11 @@ const ProductDetail = () => {
                 {relatedSubProducts.slice(0, 3).map((relatedProduct) => (
                   <Card key={relatedProduct._id} className="card-hover">
                     <CardContent className="p-6">
-                      <div className="aspect-video bg-gray-100 rounded-lg mb-4 overflow-hidden">
+                      <div className="aspect-video bg-white rounded-lg mb-4 overflow-hidden">
                         <img
                           src={getImageUrl(relatedProduct.mainImage, 300, 200)}
                           alt={relatedProduct.mainImage?.alt || relatedProduct.title}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain p-4"
                         />
                       </div>
                       <h3 className="text-lg font-semibold text-matrix-gray mb-2">
