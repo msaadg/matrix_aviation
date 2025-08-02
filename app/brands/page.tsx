@@ -248,15 +248,15 @@ const Brands = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8 max-w-md mx-auto">
               {primaryPhone && (
-                <Button size="lg" className="flex-1 bg-white text-matrix-gray hover:bg-white/90">
+                <Button size="lg" className="flex-1 bg-white text-matrix-gray hover:bg-white/90 p-3">
                   <a href={getPhoneLink(primaryPhone)}>
-                    {primaryPhone.number}
+                    Call us {primaryPhone.number}
                   </a>
                 </Button>
               )}
               
               {primaryEmail && (
-                <Button variant="outline" size="lg" className="flex-1 border-white text-matrix-gray hover:bg-white/90 hover:text-matrix-gray">
+                <Button variant="outline" size="lg" className="flex-1 border-white text-matrix-gray hover:bg-white/90 hover:text-matrix-gray p-3">
                   <a href={getEmailLink(primaryEmail)}>
                     Contact Us
                   </a>

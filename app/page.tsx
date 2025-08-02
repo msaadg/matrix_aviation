@@ -263,13 +263,13 @@ const Home = () => {
                 <div className="flex flex-col sm:flex-row gap-4 mt-8">
                   {primaryPhone && (
                     <Button size="lg" className="flex-1">
-                      <a href={getPhoneLink(primaryPhone)} className="flex items-center">
+                      <a href={getPhoneLink(primaryPhone)} className="flex items-center p-3">
                         Call Now: {primaryPhone.number}
                       </a>
                     </Button>
                   )}
                   {primaryEmail && (
-                    <Button variant="outline" size="lg" className="flex-1">
+                    <Button variant="outline" size="lg" className="flex-1 p-3">
                       <a href={getEmailLink(primaryEmail)}>
                         Email Us
                       </a>

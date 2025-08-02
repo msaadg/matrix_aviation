@@ -165,7 +165,7 @@ const ProductDetail = () => {
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-6">
                   {primaryPhone && (
-                    <Button size="lg" className="flex-1" asChild>
+                    <Button size="lg" className="flex-1 p-3" asChild>
                       <a href={getPhoneLink(primaryPhone)}>
                         <Phone className="mr-2 w-5 h-5" />
                         Call for Quote
@@ -173,7 +173,7 @@ const ProductDetail = () => {
                     </Button>
                   )}
                   {primaryEmail && (
-                    <Button variant="outline" size="lg" className="flex-1" asChild>
+                    <Button variant="outline" size="lg" className="flex-1 p-3" asChild>
                       <a href={getEmailLink(primaryEmail)}>
                         <Mail className="mr-2 w-5 h-5" />
                         Request Info
