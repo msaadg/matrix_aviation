@@ -8,6 +8,7 @@ import {productCategoryType} from './productCategoryType'
 import {productType} from './productType'
 import {subProductType} from './subProductType'
 import {brandType} from './brandType'
+import {procurerType} from './procurerType'
 import {contactType} from './contactType'
 import {companyType} from './companyType'
 import {conditionsOfSaleType} from './conditionsOfSaleType'
@@ -22,6 +23,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     productType,
     subProductType,
     brandType,
+    procurerType,
     contactType,
     companyType,
     conditionsOfSaleType

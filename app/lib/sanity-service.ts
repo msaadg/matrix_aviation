@@ -7,6 +7,7 @@ import {
   ProductDetailResponse,
   SubProductDetailResponse,
   Brand,
+  Procurer,
   Contact,
   Company,
   ConditionsOfSale
@@ -22,6 +23,8 @@ import {
   relatedSubProductsQuery,
   featuredProductsQuery,
   searchProductsQuery,
+  procurersQuery,
+  featuredProcurersQuery,
   contactQuery,
   companyQuery,
   conditionsOfSaleQuery
@@ -265,6 +268,26 @@ export async function getFeaturedBrands(): Promise<Brand[]> {
     return await client.fetch(featuredBrandsQuery)
   } catch (error) {
     console.error('Error fetching featured brands:', error)
+    return []
+  }
+}
+
+// Get all procurers/suppliers
+export async function getProcurers(): Promise<Procurer[]> {
+  try {
+    return await client.fetch(procurersQuery)
+  } catch (error) {
+    console.error('Error fetching procurers:', error)
+    return []
+  }
+}
+
+// Get featured procurers/suppliers
+export async function getFeaturedProcurers(): Promise<Procurer[]> {
+  try {
+    return await client.fetch(featuredProcurersQuery)
+  } catch (error) {
+    console.error('Error fetching featured procurers:', error)
     return []
   }
 }

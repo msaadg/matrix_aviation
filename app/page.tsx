@@ -1,6 +1,7 @@
 'use client'
 import { ArrowRight, Shield, Zap, Globe, Users } from "lucide-react";
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import HeroSection from "@/app/components/ui/hero-section";
 import SectionHeader from "@/app/components/ui/section-header";
 import { Button } from "@/app/components/ui/button";
@@ -9,12 +10,33 @@ import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
 import { getPrimaryPhone, getPrimaryEmail, getPhoneLink, getEmailLink } from "@/app/lib/contact-utils";
 import { useContact } from "./context/ContactContext";
+import { getFeaturedProcurers } from "@/app/lib/sanity-service";
+import { getImageUrl } from "@/app/lib/product-utils";
+import { Procurer } from "@/app/lib/types";
 
 const Home = () => {
   const { contact } = useContact();
+  const [procurers, setProcurers] = useState<Procurer[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const primaryPhone = getPrimaryPhone(contact);
   const primaryEmail = getPrimaryEmail(contact);
+
+  useEffect(() => {
+    const fetchProcurers = async () => {
+      try {
+        const featuredProcurers = await getFeaturedProcurers();
+        setProcurers(featuredProcurers);
+      } catch (error) {
+        console.error('Error fetching procurers:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProcurers();
+  }, []);
+  console.log(procurers.length);
 
   const features = [
     {
@@ -155,10 +177,46 @@ const Home = () => {
           </div>
         </section>
 
+        {/* Trusted Partners Section */}
+        {!loading && procurers.length > 0 && (
+          <section className="py-20 bg-white">
+            <div className="container mx-auto px-4">
+              <SectionHeader
+                subtitle="Trusted Partners"
+                title="Our Global Procurement Network"
+                description="We source premium materials and components from leading suppliers worldwide, ensuring quality and reliability in every product."
+              />
+
+              <div className="flex flex-wrap justify-center items-center gap-8 mt-16">
+                {procurers.map((procurer) => (
+                  <div
+                    key={procurer._id}
+                    className="flex items-center justify-center p-6 rounded-xl hover:shadow-md transition-all duration-300 group"
+                    style={{ width: '280px', height: '180px' }}
+                  >
+                    <div className="flex flex-col items-center justify-center">
+                      <img
+                        src={getImageUrl(procurer.logo, 280, 180)}
+                        alt={procurer.logo.alt || `${procurer.companyName} logo`}
+                        className="max-w-[240px] max-h-[1400px] object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                      />
+                      {procurer.country && (
+                        <p className="text-xs text-muted-foreground mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-center">
+                          {procurer.country}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Contact Section */}
         <section
           data-section="contact"
-          className="py-20 bg-white"
+          className="py-20 bg-gray-50"
         >
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">

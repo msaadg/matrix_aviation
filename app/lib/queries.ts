@@ -395,6 +395,51 @@ export const conditionsOfSaleQuery = groq`
   }
 `;
 
+// Get all procurers/suppliers
+export const procurersQuery = groq`
+  *[_type == "procurer"] | order(order asc, companyName asc) {
+    _id,
+    _type,
+    companyName,
+    slug,
+    logo{
+      asset->{
+        _ref,
+        url
+      },
+      alt
+    },
+    shortDescription,
+    website,
+    country,
+    order,
+    featured,
+    partnershipStartDate
+  }
+`;
+
+// Get featured procurers/suppliers for homepage
+export const featuredProcurersQuery = groq`
+  *[_type == "procurer" && featured == true] | order(order asc, companyName asc) {
+    _id,
+    _type,
+    companyName,
+    slug,
+    logo{
+      asset->{
+        _ref,
+        url
+      },
+      alt
+    },
+    shortDescription,
+    website,
+    country,
+    order,
+    featured
+  }
+`;
+
 // example query to fetch page data
 // export const pageDataQuery = groq`
 //   *[_type == "pageData"][0]{

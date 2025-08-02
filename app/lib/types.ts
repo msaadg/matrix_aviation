@@ -123,6 +123,29 @@ export interface Brand {
   featured?: boolean
 }
 
+// Procurer/Supplier interface
+export interface Procurer {
+  _id: string
+  _type: 'procurer'
+  companyName: string
+  slug: {
+    current: string
+  }
+  logo: {
+    asset: {
+      _ref: string
+      url: string
+    }
+    alt?: string
+  }
+  shortDescription?: string
+  website?: string
+  country?: string
+  order?: number
+  featured?: boolean
+  partnershipStartDate?: string
+}
+
 // API Response interfaces
 export interface ProductsResponse {
   products: Product[]
