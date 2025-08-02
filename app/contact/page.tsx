@@ -8,7 +8,7 @@ import { Label } from "@/app/components/ui/label";
 import { Textarea } from "@/app/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/components/ui/card";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
-import { useToast } from "@/app/hooks/use-toast";
+import { useCustomToast } from "@/app/components/ui/custom-toast-provider";
 import Header from "@/app/components/layout/Header";
 import Footer from "@/app/components/layout/Footer";
 import { 
@@ -26,22 +26,41 @@ const ContactPage = () => {
     email: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { contact } = useContact();
-  const { toast } = useToast();
+  const { showToast } = useCustomToast();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for your inquiry. We'll get back to you soon.",
-    });
-    setFormData({ name: "", email: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        showToast("Message sent successfully.", "success");
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        const errorData = await response.json();
+        showToast(errorData.error || "Failed to send message. Please try again.", "error");
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      showToast("Failed to send message. Please check your connection and try again.", "error");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const primaryPhone = getPrimaryPhone(contact);
@@ -227,8 +246,8 @@ const ContactPage = () => {
                             className="mt-1"
                           />
                         </div>
-                        <Button type="submit" className="w-full">
-                          Send Message
+                        <Button type="submit" className="w-full" disabled={isSubmitting}>
+                          {isSubmitting ? "Sending..." : "Send Message"}
                         </Button>
                       </form>
                     </CardContent>
