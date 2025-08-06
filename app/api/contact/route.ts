@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     // Email content
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: 'saad.salman11123@gmail.com',
+      to: 'sales@matrixaviationfueling.com',
       subject: `${name} contacted you at Matrix Aviation`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
