@@ -78,7 +78,7 @@ export const subProductType = defineType({
           type: 'string',
         })
       ],
-      description: '1080 x 720 px recommended size, ensure ample whitespace around the product',
+      description: '1080 x 720 px recommended size, ensure ample whitespace around the sub product',
       validation: Rule => Rule.required()
     }),
     defineField({
