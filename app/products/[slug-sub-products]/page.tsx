@@ -193,8 +193,8 @@ const SubProductsPage = () => {
                         {subProduct.features && subProduct.features.length > 0 && (
                           <div className="space-y-2 mb-6">
                             {subProduct.features.slice(0, 3).map((feature, index) => (
-                              <div key={index} className="flex items-center space-x-2">
-                                <div className="w-1.5 h-1.5 bg-primary rounded-full"></div>
+                              <div key={index} className="flex items-start space-x-2">
+                                <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
                                 <span className="text-sm text-muted-foreground">{feature}</span>
                               </div>
                             ))}
