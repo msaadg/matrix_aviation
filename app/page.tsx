@@ -55,7 +55,7 @@ const Home = () => {
       icon: Globe,
       title: "Global Reach",
       description: "Serving major oil companies, airports, and manufacturers worldwide with reliable solutions.",
-      image: "/turbine.jpg"
+      image: "/turbine.png"
     }
   ];
 
@@ -68,7 +68,7 @@ const Home = () => {
           title="Welcome to Matrix Aviation"
           subtitle="Innovative Solutions in Aviation Fueling"
           description="At Matrix Aviation, we deliver state-of-the-art fueling systems with a commitment to safety, quality, and environmental stewardship, ensuring the future of aviation."
-          backgroundImage="/hero.jpg"
+          backgroundImage="/turbine.jpg"
           ctaText="Discover More"
         />
 
